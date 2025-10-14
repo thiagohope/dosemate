@@ -1,0 +1,984 @@
+[
+  {
+    "slug": "norepinephrine",
+    "drug": "Norepinephrine",
+    "generic_name": "Levophed",
+    "category": "vasoactive",
+    "dose_range": "dose_range_nor",
+    "monitoring": "monitoring_nor",
+    "diluent_compatibility": "diluent_compatibility_nor",
+    "stability": "stability_nor",
+    "site_compatibility": "site_compatibility_nor",
+    "safety_notes": "safety_notes_nor",
+    "concentrations": [
+      {
+        "label": "4 mg in 46 mL (Total: 50 mL)",
+        "is_default": true,
+        "drug_amount": 4,
+        "drug_unit": "mg",
+        "total_volume": 50,
+        "mcg_per_ml": 80
+      },
+      {
+        "label": "8 mg in 42 mL (High) (Total: 50 mL)",
+        "is_default": false,
+        "drug_amount": 8,
+        "drug_unit": "mg",
+        "total_volume": 50,
+        "mcg_per_ml": 160
+      }
+    ]
+  },
+  {
+    "slug": "propofol",
+    "drug": "Propofol",
+    "generic_name": "Diprivan",
+    "category": "snc",
+    "dose_range": "dose_range_prop",
+    "monitoring": "monitoring_prop",
+    "diluent_compatibility": "diluent_compatibility_prop",
+    "stability": "stability_prop",
+    "site_compatibility": "site_compatibility_prop",
+    "safety_notes": "safety_notes_prop",
+    "concentrations": [
+      {
+        "label": "500 mg in 50 mL (Non-diluted) (Total: 50 mL)",
+        "is_default": true,
+        "drug_amount": 500,
+        "drug_unit": "mg",
+        "total_volume": 50,
+        "mcg_per_ml": 10000
+      }
+    ]
+  },
+  {
+    "slug": "amiodarone",
+    "drug": "Amiodarone",
+    "generic_name": "Cordarone",
+    "category": "cardio",
+    "dose_range": "dose_range_amio",
+    "monitoring": "monitoring_amio",
+    "diluent_compatibility": "diluent_compatibility_amio",
+    "stability": "stability_amio",
+    "site_compatibility": "site_compatibility_amio",
+    "safety_notes": "safety_notes_amio",
+    "concentrations": [
+      {
+        "label": "600 mg in 38 mL (Total: 50 mL)",
+        "is_default": true,
+        "drug_amount": 600,
+        "drug_unit": "mg",
+        "total_volume": 50,
+        "mcg_per_ml": 12
+      }
+    ]
+  },
+{
+    "slug": "vasopressin",
+    "drug": "Vasopressin",
+    "generic_name": "Pitressin",
+    "category": "vasoactive",
+    "dose_range": "dose_range_vaso",
+    "monitoring": "monitoring_vaso",
+    "diluent_compatibility": "diluent_compatibility_vaso",
+    "stability": "stability_vaso",
+    "site_compatibility": "site_compatibility_vaso",
+    "safety_notes": "safety_notes_vaso",
+    "concentrations": [
+      {
+        "label": "20 U in 19 mL (Total: 20 mL)",
+        "is_default": true,
+        "drug_amount": 20,
+        "drug_unit": "U",
+        "total_volume": 20,
+        "mcg_per_ml": 0,
+        "units_per_ml": 1
+
+      }
+    ]
+  },
+  {
+    "slug": "dobutamine",
+    "drug": "Dobutamine",
+    "generic_name": "Dobutrex",
+    "category": "cardio",
+    "dose_range": "dose_range_dobu",
+    "monitoring": "monitoring_dobu",
+    "diluent_compatibility": "diluent_compatibility_dobu",
+    "stability": "stability_dobu",
+    "site_compatibility": "site_compatibility_dobu",
+    "safety_notes": "safety_notes_dobu",
+    "concentrations": [
+      {
+        "label": "250 mg in 30 mL (Total: 50 mL)",
+        "is_default": true,
+        "drug_amount": 250,
+        "drug_unit": "mg",
+        "total_volume": 50,
+        "mcg_per_ml": 500
+      },
+      {
+        "label": "500 mg in 10 mL (High) (Total: 50 mL)",
+        "is_default": false,
+        "drug_amount": 500,
+        "drug_unit": "mg",
+        "total_volume": 250,
+        "mcg_per_ml": 1000
+      }
+    ]
+  },
+  {
+    "slug": "dopamine",
+    "drug": "Dopamine",
+    "generic_name": "Intropin",
+    "category": "vasoactive",
+    "dose_range": "dose_range_dopa",
+    "monitoring": "monitoring_dopa",
+    "diluent_compatibility": "diluent_compatibility_dopa",
+    "stability": "stability_dopa",
+    "site_compatibility": "site_compatibility_dopa",
+    "safety_notes": "safety_notes_dopa",
+    "concentrations": [
+      {
+        "label": "200 mg in 45 mL (Total: 50 mL)",
+        "is_default": true,
+        "drug_amount": 200,
+        "drug_unit": "mg",
+        "total_volume": 50,
+        "mcg_per_ml": 4000
+      },
+      {
+        "label": "400 mg in 40 mL (High) (Total: 50 mL)",
+        "is_default": false,
+        "drug_amount": 800,
+        "drug_unit": "mg",
+        "total_volume": 50,
+        "mcg_per_ml": 8000
+      }
+    ]
+  },
+  {
+    "slug": "epinephrine",
+    "drug": "Epinephrine",
+    "generic_name": "Adrenalin",
+    "category": "vasoactive",
+    "dose_range": "dose_range_epi",
+    "monitoring": "monitoring_epi",
+    "diluent_compatibility": "diluent_compatibility_epi",
+    "stability": "stability_epi",
+    "site_compatibility": "site_compatibility_epi",
+    "safety_notes": "safety_notes_epi",
+    "concentrations": [
+      {
+        "label": "1 mg in 49 mL (Total: 50 mL)",
+        "is_default": true,
+        "drug_amount": 1,
+        "drug_unit": "mg",
+        "total_volume": 50,
+        "mcg_per_ml": 20
+      },
+      {
+        "label": "2 mg in 48 mL (High) (Total: 50 mL)",
+        "is_default": false,
+        "drug_amount": 2,
+        "drug_unit": "mg",
+        "total_volume": 50,
+        "mcg_per_ml": 40
+      }
+    ]
+  },
+  {
+    "slug": "isoproterenol",
+    "drug": "Isoproterenol",
+    "generic_name": "Isuprel",
+    "category": "cardio",
+    "dose_range": "dose_range_iso",
+    "monitoring": "monitoring_iso",
+    "diluent_compatibility": "diluent_compatibility_iso",
+    "stability": "stability_iso",
+    "site_compatibility": "site_compatibility_iso",
+    "safety_notes": "safety_notes_iso",
+    "concentrations": [
+      {
+        "label": "1 mg in 45 mL (Total: 50 mL)",
+        "is_default": true,
+        "drug_amount": 1,
+        "drug_unit": "mg",
+        "total_volume": 50,
+        "mcg_per_ml": 20
+      }
+    ]
+  },
+{
+    "slug": "levosimendan",
+    "drug": "Levosimendan",
+    "generic_name": "Simdax",
+    "category": "cardio",
+    "dose_range": "dose_range_levo",
+    "monitoring": "monitoring_levo",
+    "diluent_compatibility": "diluent_compatibility_levo",
+    "stability": "stability_levo",
+    "site_compatibility": "site_compatibility_levo",
+    "safety_notes": "safety_notes_levo",
+    "concentrations": [
+      {
+        "label": "12.5 mg in 250 mL (Non-diluted) (Total: 250 mL)",
+        "is_default": true,
+        "drug_amount": 12.5,
+        "drug_unit": "mg",
+        "total_volume": 250,
+        "mcg_per_ml": 50
+      }
+    ]
+  },
+  {
+    "slug": "sodium_nitroprusside",
+    "drug": "Sodium Nitroprusside",
+    "generic_name": "Nipride",
+    "category": "vasoactive",
+    "dose_range": "dose_range_nitroprusside",
+    "monitoring": "monitoring_nitroprusside",
+    "diluent_compatibility": "diluent_compatibility_nitroprusside",
+    "stability": "stability_nitroprusside",
+    "site_compatibility": "site_compatibility_nitroprusside",
+    "safety_notes": "safety_notes_nitroprusside",
+    "concentrations": [
+      {
+        "label": "50 mg in 48 mL (Total: 50 mL)",
+        "is_default": true,
+        "drug_amount": 50,
+        "drug_unit": "mg",
+        "total_volume": 50,
+        "mcg_per_ml": 1000
+      }
+    ]
+  },
+  {
+    "slug": "nitroglycerin",
+    "drug": "Nitroglycerin",
+    "generic_name": "Tridil",
+    "category": "vasodilator",
+    "dose_range": "dose_range_nitro",
+    "monitoring": "monitoring_nitro",
+    "diluent_compatibility": "diluent_compatibility_nitro",
+    "stability": "stability_nitro",
+    "site_compatibility": "site_compatibility_nitro",
+    "safety_notes": "safety_notes_nitro",
+    "concentrations": [
+      {
+        "label": "50 mg in 40 mL (Total: 50 mL)",
+        "is_default": true,
+        "drug_amount": 50,
+        "drug_unit": "mg",
+        "total_volume": 50,
+        "mcg_per_ml": 1000
+      },
+      {
+        "label": "25 mg in 45 mL (Diluted) (Total: 50 mL)",
+        "is_default": false,
+        "drug_amount": 25,
+        "drug_unit": "mg",
+        "total_volume": 50,
+        "mcg_per_ml": 500
+      }
+    ]
+  },
+  {
+    "slug": "isosorbide_dinitrate",
+    "drug": "Isosorbide Dinitrate",
+    "generic_name": "Isordil",
+    "category": "vasodilator",
+    "dose_range": "dose_range_isodni",
+    "monitoring": "monitoring_isodni",
+    "diluent_compatibility": "diluent_compatibility_isodni",
+    "stability": "stability_isodni",
+    "site_compatibility": "site_compatibility_isodni",
+    "safety_notes": "safety_notes_isodni",
+    "concentrations": [
+      {
+        "label": "50 mg in 50 mL (Non-diluted) (Total: 50 mL)",
+        "is_default": true,
+        "drug_amount": 50,
+        "drug_unit": "mg",
+        "total_volume": 50,
+        "mcg_per_ml": 1000
+      }
+    ]
+  },
+  {
+    "slug": "esmolol",
+    "drug": "Esmolol",
+    "generic_name": "Brevibloc",
+    "category": "cardio",
+    "dose_range": "dose_range_esmo",
+    "monitoring": "monitoring_esmo",
+    "diluent_compatibility": "diluent_compatibility_esmo",
+    "stability": "stability_esmo",
+    "site_compatibility": "site_compatibility_esmo",
+    "safety_notes": "safety_notes_esmo",
+    "concentrations": [
+      {
+        "label": "500 mg in 50 mL (Non-diluted) (Total: 50 mL)",
+        "is_default": true,
+        "drug_amount": 500,
+        "drug_unit": "mg",
+        "total_volume": 50,
+        "mcg_per_ml": 10
+      },
+      {
+        "label": "1000 mg in 50 mL (High, non-diluted) (Total: 50 mL)",
+        "is_default": false,
+        "drug_amount": 1000,
+        "drug_unit": "mg",
+        "total_volume": 50,
+        "mcg_per_ml": 20
+      }
+    ]
+  },
+  {
+    "slug": "labetalol",
+    "drug": "Labetalol",
+    "generic_name": "Trandate",
+    "category": "cardio",
+    "dose_range": "dose_range_labe",
+    "monitoring": "monitoring_labe",
+    "diluent_compatibility": "diluent_compatibility_labe",
+    "stability": "stability_labe",
+    "site_compatibility": "site_compatibility_labe",
+    "safety_notes": "safety_notes_labe",
+    "concentrations": [
+      {
+        "label": "200 mg in 40 mL (Non-diluted) (Total: 40 mL)",
+        "is_default": true,
+        "drug_amount": 200,
+        "drug_unit": "mg",
+        "total_volume": 40,
+        "mcg_per_ml": 5000
+      }
+    ]
+  },
+  {
+    "slug": "nicardipine",
+    "drug": "Nicardipine",
+    "generic_name": "Cardene",
+    "category": "cardio",
+    "dose_range": "dose_range_nica",
+    "monitoring": "monitoring_nica",
+    "diluent_compatibility": "diluent_compatibility_nica",
+    "stability": "stability_nica",
+    "site_compatibility": "site_compatibility_nica",
+    "safety_notes": "safety_notes_nica",
+    "concentrations": [
+      {
+        "label": "20 mg in 200 mL (Non-diluted) (Total: 200 mL)",
+        "is_default": true,
+        "drug_amount": 20,
+        "drug_unit": "mg",
+        "total_volume": 200,
+        "mcg_per_ml": 100
+      },
+      {
+        "label": "40 mg in 200 mL (High, non-diluted) (Total: 200 mL)",
+        "is_default": false,
+        "drug_amount": 40,
+        "drug_unit": "mg",
+        "total_volume": 200,
+        "mcg_per_ml": 200
+      }
+    ]
+  },
+  {
+    "slug": "milrinone",
+    "drug": "Milrinone",
+    "generic_name": "Primacor",
+    "category": "cardio",
+    "dose_range": "dose_range_milri",
+    "monitoring": "monitoring_milri",
+    "diluent_compatibility": "diluent_compatibility_milri",
+    "stability": "stability_milri",
+    "site_compatibility": "site_compatibility_milri",
+    "safety_notes": "safety_notes_milri",
+    "concentrations": [
+      {
+        "label": "20 mg in 30 mL (Total: 50 mL)",
+        "is_default": true,
+        "drug_amount": 20,
+        "drug_unit": "mg",
+        "total_volume": 50,
+        "mcg_per_ml": 400
+      }
+    ]
+  },
+  {
+  "slug": "midazolam",
+  "drug": "Midazolam",
+  "category": "snc",
+  "generic_name": "Versed",
+    "dose_range": "dose_range_mida",
+    "monitoring": "monitoring_mida",
+    "diluent_compatibility": "diluent_compatibility_mida",
+    "stability": "stability_mida",
+    "site_compatibility": "site_compatibility_mida",
+    "safety_notes": "safety_notes_mida",
+
+  "concentrations": [
+    {
+      "label": "15 mg (3 mL) x2 in 24 mL (Total: 30 mL)",
+      "is_default": true,
+      "drug_amount": 30,
+      "drug_unit": "mg",
+      "total_volume": 30,
+      "mcg_per_ml": 1000
+    },
+    {
+      "label": "15 mg (3 mL) x4 in 48 mL (Total: 60 mL)",
+      "is_default": false,
+      "drug_amount": 60,
+      "drug_unit": "mg",
+      "total_volume": 60,
+      "mcg_per_ml": 1000
+    }
+  ]
+},
+{
+  "slug": "vecuronium",
+  "drug": "Vecuronium",
+  "category": "snc",
+  "generic_name": "Norcuron",
+      "dose_range": "dose_range_vecu",
+    "monitoring": "monitoring_vecu",
+    "diluent_compatibility": "diluent_compatibility_vecu",
+    "stability": "stability_vecu",
+    "site_compatibility": "site_compatibility_vecu",
+    "safety_notes": "safety_notes_vecu",
+  "concentrations": [
+    {
+      "label": "4 mg (powder) in 40 mL (Total: 40 mL)",
+      "is_default": true,
+      "drug_amount": 4,
+      "drug_unit": "mg",
+      "total_volume": 40,
+      "mcg_per_ml": 100
+    }
+]
+},
+{
+  "slug": "rocuronium",
+  "drug": "Rocuronium",
+  "category": "snc",
+  "generic_name": "Zemuron",
+        "dose_range": "dose_range_rocu",
+    "monitoring": "monitoring_rocu",
+    "diluent_compatibility": "diluent_compatibility_rocu",
+    "stability": "stability_rocu",
+    "site_compatibility": "site_compatibility_rocu",
+    "safety_notes": "safety_notes_rocu",
+  "concentrations": [
+    {
+      "label": "50 mg (5 mL) x5 (Total: 25 mL)",
+      "is_default": true,
+      "drug_amount": 250,
+      "drug_unit": "mg",
+      "total_volume": 25,
+      "mcg_per_ml": 10000
+    }
+  ]
+},
+{
+  "slug": "fentanyl",
+  "drug": "Fentanyl",
+  "category": "snc",
+  "generic_name": "Sublimaze",
+        "dose_range": "dose_range_fenta",
+    "monitoring": "monitoring_fenta",
+    "diluent_compatibility": "diluent_compatibility_fenta",
+    "stability": "stability_fenta",
+    "site_compatibility": "site_compatibility_fenta",
+    "safety_notes": "safety_notes_fenta",
+  "concentrations": [
+    {
+      "label": "500 mcg (10 mL) x4 (Total: 40 mL)",
+      "is_default": true,
+      "drug_amount": 500,
+      "drug_unit": "mcg",
+      "total_volume": 40,
+      "mcg_per_ml": 50
+    }
+  ]
+},
+{
+  "slug": "remifentanyl",
+  "drug": "Remifentanyl",
+  "category": "snc",
+  "generic_name": "Ultiva",
+        "dose_range": "dose_range_remi",
+    "monitoring": "monitoring_remi",
+    "diluent_compatibility": "diluent_compatibility_remi",
+    "stability": "stability_remi",
+    "site_compatibility": "site_compatibility_remi",
+    "safety_notes": "safety_notes_remi",
+  "concentrations": [
+    {
+      "label": "5 mg (powder) x5 in 50 mL (Total: 50 mL)",
+      "is_default": true,
+      "drug_amount": 25,
+      "drug_unit": "mg",
+      "total_volume": 50,
+      "mcg_per_ml": 500
+    }
+  ]
+},
+{
+  "slug": "ketamine",
+  "drug": "Ketamine",
+  "category": "snc",
+  "generic_name": "Ketalar",
+        "dose_range": "dose_range_keta",
+    "monitoring": "monitoring_keta",
+    "diluent_compatibility": "diluent_compatibility_keta",
+    "stability": "stability_keta",
+    "site_compatibility": "site_compatibility_keta",
+    "safety_notes": "safety_notes_keta",
+  "concentrations": [
+    {
+      "label": "200 mg in 20 mL (Total: 20 mL)",
+      "is_default": true,
+      "drug_amount": 200,
+      "drug_unit": "mg",
+      "total_volume": 20,
+      "mcg_per_ml": 10000
+    }
+  ]
+ },
+ {
+  "slug": "cisatracurium",
+  "drug": "Cisatracurium",
+  "category": "snc",
+  "generic_name": "Nimbex",
+        "dose_range": "dose_range_cisa",
+    "monitoring": "monitoring_cisa",
+    "diluent_compatibility": "diluent_compatibility_cisa",
+    "stability": "stability_cisa",
+    "site_compatibility": "site_compatibility_cisa",
+    "safety_notes": "safety_notes_cisa",
+  "concentrations": [
+    {
+      "label": "20 mg (10 mL) x2 in 20 mL (Total: 40 mL)",
+      "is_default": true,
+      "drug_amount": 40,
+      "drug_unit": "mg",
+      "total_volume": 40,
+      "mcg_per_ml": 1000
+    }
+  ]
+ },
+{
+  "slug": "dexmedetomidine",
+  "drug": "Dexmedetomidine",
+  "category": "snc",
+  "generic_name": "Precedex",
+        "dose_range": "dose_range_dex",
+    "monitoring": "monitoring_dex",
+    "diluent_compatibility": "diluent_compatibility_dex",
+    "stability": "stability_dex",
+    "site_compatibility": "site_compatibility_dex",
+    "safety_notes": "safety_notes_dex",
+  "concentrations": [
+    {
+      "label": "200 mcg (2 mL) in 48 mL (Total: 50 mL)",
+      "is_default": true,
+      "drug_amount": 200,
+      "drug_unit": "mcg",
+      "total_volume": 50,
+      "mcg_per_ml": 4
+    },
+    {
+      "label": "200 mcg (2 mL) x2 in 46 mL (Total: 50 mL)",
+      "is_default": false,
+      "drug_amount": 400,
+      "drug_unit": "mcg",
+      "total_volume": 50,
+      "mcg_per_ml": 8
+    }
+   ]
+  },
+{
+  "slug": "lorazepam",
+  "drug": "Lorazepam",
+  "category": "snc",
+  "generic_name": "Ativan",
+        "dose_range": "dose_range_lora",
+    "monitoring": "monitoring_lora",
+    "diluent_compatibility": "diluent_compatibility_lora",
+    "stability": "stability_lora",
+    "site_compatibility": "site_compatibility_lora",
+    "safety_notes": "safety_notes_lora",
+  "concentrations": [
+    {
+      "label": "40 mg (10 mL) in 30 mL (Total: 40 mL)",
+      "is_default": true,
+      "drug_amount": 40,
+      "drug_unit": "mg",
+      "total_volume": 40,
+      "mcg_per_ml": 1000
+    }
+  ]
+},
+{
+  "slug": "insulin",
+  "drug": "Insulin",
+  "category": "hormone",
+  "generic_name": "Humulin R / Novolin R",
+        "dose_range": "dose_range_insu",
+    "monitoring": "monitoring_insu",
+    "diluent_compatibility": "diluent_compatibility_insu",
+    "stability": "stability_insu",
+    "site_compatibility": "site_compatibility_insu",
+    "safety_notes": "safety_notes_insu",
+  "concentrations": [
+    {
+      "label": "50 U (0.5 mL) in 49 mL (Total: ~50 mL)",
+      "is_default": true,
+      "drug_amount": 50,
+      "drug_unit": "U",
+      "total_volume": 50,
+      "mcg_per_ml": 0,
+      "U_per_ml": 1
+    }
+  ]
+ },
+ {
+  "slug": "furosemide",
+  "drug": "Furosemide",
+  "category": "other",
+  "generic_name": "Lasix",
+        "dose_range": "dose_range_furo",
+    "monitoring": "monitoring_furo",
+    "diluent_compatibility": "diluent_compatibility_furo",
+    "stability": "stability_furo",
+    "site_compatibility": "site_compatibility_furo",
+    "safety_notes": "safety_notes_furo",
+  "concentrations": [
+    {
+      "label": "20 mg (2 mL) x20 (Non-diluted) (Total: 40 mL)",
+      "is_default": true,
+      "drug_amount": 400,
+      "drug_unit": "mg",
+      "total_volume": 40,
+      "mcg_per_ml": 10000
+    }
+  ]
+ },  
+{
+  "slug": "mannitol",
+  "drug": "Mannitol",
+  "category": "other",
+  "generic_name": "Osmitrol",
+        "dose_range": "dose_range_manni",
+    "monitoring": "monitoring_manni",
+    "diluent_compatibility": "diluent_compatibility_manni",
+    "stability": "stability_manni",
+    "site_compatibility": "site_compatibility_manni",
+    "safety_notes": "safety_notes_manni",
+  "concentrations": [
+    {
+      "label": "50 g in 250 mL (20% solution)",
+      "is_default": true,
+      "drug_amount": 50,
+      "drug_unit": "g",
+      "total_volume": 250,
+      "mcg_per_ml": 200000
+    }
+  ]
+ },
+ {
+  "slug": "hydrocortisone",
+  "drug": "Hydrocortisone",
+  "category": "other",
+  "generic_name": "Solu-Cortef",
+        "dose_range": "dose_range_hydro",
+    "monitoring": "monitoring_hydro",
+    "diluent_compatibility": "diluent_compatibility_hydro",
+    "stability": "stability_hydro",
+    "site_compatibility": "site_compatibility_hydro",
+    "safety_notes": "safety_notes_hydro",
+
+  "concentrations": [
+    {
+      "label": "100 mg (2 mL) x2 in 46 mL (Total: 50 mL)",
+      "is_default": true,
+      "drug_amount": 200,
+      "drug_unit": "mg",
+      "total_volume": 50,
+      "mcg_per_ml": 4000
+    }
+  ]
+ },
+{
+  "slug": "octreotide",
+  "drug": "Octreotide",
+  "category": "other",
+  "generic_name": "Sandostatin",
+  "dose_range": "dose_range_octreo",
+  "monitoring": "monitoring_octreo",
+  "diluent_compatibility": "diluent_compatibility_octreo",
+  "stability": "stability_octreo",
+  "site_compatibility": "site_compatibility_octreo",
+  "safety_notes": "safety_notes_octreo",
+  "concentrations": [
+    {
+      "label": "50 mcg (1 mL) in 49 mL (Total: 50 mL)",
+      "is_default": true,
+      "drug_amount": 50,
+      "drug_unit": "mcg",
+      "total_volume": 50,
+      "mcg_per_ml": 1
+    }
+  ]
+},
+{
+  "slug": "heparin",
+  "drug": "Heparin",
+  "category": "anticoagulant",
+  "generic_name": "Heparin Sodium",
+  "dose_range": "dose_range_hepa",
+  "monitoring": "monitoring_hepa",
+  "diluent_compatibility": "diluent_compatibility_hepa",
+  "stability": "stability_hepa",
+  "site_compatibility": "site_compatibility_hepa",
+  "safety_notes": "safety_notes_hepa",
+  "concentrations": [
+    {
+      "label": "25,000 U (5 mL) in 45 mL (Total: 50 mL)",
+      "is_default": true,
+      "drug_amount": 25000,
+      "drug_unit": "U",
+      "total_volume": 50,
+      "mcg_per_ml": 0,
+      "U_per_mL": 500
+    }
+  ]
+},
+{
+  "slug": "tirofiban",
+  "drug": "Tirofiban",
+  "category": "antiplatelet",
+  "generic_name": "Aggrastat",
+  "dose_range": "dose_range_tiro",
+  "monitoring": "monitoring_tiro",
+  "diluent_compatibility": "diluent_compatibility_tiro",
+  "stability": "stability_tiro",
+  "site_compatibility": "site_compatibility_tiro",
+  "safety_notes": "safety_notes_tiro",
+  "concentrations": [
+    {
+      "label": "25 mg in 250 mL (100 mcg/mL)",
+      "is_default": true,
+      "drug_amount": 25,
+      "drug_unit": "mg",
+      "total_volume": 250,
+      "mcg_per_ml": 100
+    }
+  ]
+},
+{
+  "slug": "thiopental",
+  "drug": "Thiopental",
+  "category": "barbiturate_anesthetic",
+  "generic_name": "Pentothal",
+  "dose_range": "dose_range_thio",
+  "monitoring": "monitoring_thio",
+  "diluent_compatibility": "diluent_compatibility_thio",
+  "stability": "stability_thio",
+  "site_compatibility": "site_compatibility_thio",
+  "safety_notes": "safety_notes_thio",
+  "concentrations": [
+    {
+      "label": "1 g powder for injection (2.5% solution)",
+      "is_default": true,
+      "drug_amount": 1000,
+      "drug_unit": "mg",
+      "total_volume": 40,
+      "mcg_per_ml": 25000
+    }
+  ]
+},
+{
+  "slug": "sodium_bicarbonate",
+  "drug": "Sodium Bicarbonate",
+  "category": "electrolytes",
+  "generic_name": "Bicarbonato de Sódio",
+  "dose_range": "dose_range_bicarb",
+  "monitoring": "monitoring_bicarb",
+  "diluent_compatibility": "diluent_compatibility_bicarb",
+  "stability": "stability_bicarb",
+  "site_compatibility": "site_compatibility_bicarb",
+  "safety_notes": "safety_notes_bicarb",
+  "concentrations": [
+    {
+      "label": "84 mg/mL (8.4% solution, 1 mEq/mL)",
+      "is_default": true,
+      "drug_amount": 50,
+      "drug_unit": "mEq",
+      "total_volume": 50,
+      "mcg_per_ml": 84000
+    }
+  ]
+},
+{
+  "slug": "potassium_chloride",
+  "drug": "Potassium Chloride",
+  "category": "electrolytes",
+  "generic_name": "KCl",
+  "dose_range": "dose_range_kcl",
+  "monitoring": "monitoring_kcl",
+  "diluent_compatibility": "diluent_compatibility_kcl",
+  "stability": "stability_kcl",
+  "site_compatibility": "site_compatibility_kcl",
+  "safety_notes": "safety_notes_kcl",
+  "concentrations": [
+    {
+      "label": "2 mEq/mL (10 mEq in 5 mL) x4 (Total: 20 mL)",
+      "is_default": true,
+      "drug_amount": 40,
+      "drug_unit": "mEq",
+      "total_volume": 20,
+      "mcg_per_ml": 0,
+      "mEq_per_ml": 2
+    }
+  ]
+},
+{
+  "slug": "sodium_chloride_3_percent",
+  "drug": "Sodium Chloride 3%",
+  "category": "electrolytes",
+  "generic_name": "Hypertonic Saline 3%",
+  "dose_range": "dose_range_nacl3",
+  "monitoring": "monitoring_nacl3",
+  "diluent_compatibility": "diluent_compatibility_nacl3",
+  "stability": "stability_nacl3",
+  "site_compatibility": "site_compatibility_nacl3",
+  "safety_notes": "safety_notes_nacl3",
+  "concentrations": [
+    {
+      "label": "30 mg/mL (513 mEq/L) pre-mixed solution",
+      "is_default": true,
+      "drug_amount": 513,
+      "drug_unit": "mEq",
+      "total_volume": 1000,
+      "mcg_per_ml": 30000
+    }
+  ]
+},
+{
+  "slug": "potassium_phosphate",
+  "drug": "Potassium Phosphate",
+  "category": "electrolytes",
+  "generic_name": "K-Phos (Concentrate)",
+  "dose_range": "dose_range_kphos",
+  "monitoring": "monitoring_kphos",
+  "diluent_compatibility": "diluent_compatibility_kphos",
+  "stability": "stability_kphos",
+  "site_compatibility": "site_compatibility_kphos",
+  "safety_notes": "safety_notes_kphos",
+  "concentrations": [
+    {
+      "label": "15 mmol PO4 and 22 mEq K in 5 mL (3 mmol PO4/mL)",
+      "is_default": true,
+      "drug_amount": 15,
+      "drug_unit": "mmol",
+      "total_volume": 5,
+      "mcg_per_ml": 93000
+    }
+  ]
+},
+{
+  "slug": "meropenem",
+  "drug": "Meropenem",
+  "category": "antibiotic",
+  "generic_name": "Merrem",
+  "dose_range": "dose_range_mero",
+  "monitoring": "monitoring_mero",
+  "diluent_compatibility": "diluent_compatibility_mero",
+  "stability": "stability_mero",
+  "site_compatibility": "site_compatibility_mero",
+  "safety_notes": "safety_notes_mero",
+  "concentrations": [
+    {
+      "label": "1 g powder for injection (Reconstitute to 50 mg/mL)",
+      "is_default": true,
+      "drug_amount": 1,
+      "drug_unit": "g",
+      "total_volume": 20,
+      "mcg_per_ml": 50000
+    }
+  ]
+},
+{
+  "slug": "piperacillin_tazobactam",
+  "drug": "Piperacillin-Tazobactam",
+  "category": "antibiotic",
+  "generic_name": "Zosyn",
+  "dose_range": "dose_range_pip_tazo",
+  "monitoring": "monitoring_pip_tazo",
+  "diluent_compatibility": "diluent_compatibility_pip_tazo",
+  "stability": "stability_pip_tazo",
+  "site_compatibility": "site_compatibility_pip_tazo",
+  "safety_notes": "safety_notes_pip_tazo",
+  "concentrations": [
+    {
+      "label": "4.5 g powder for injection (4 g Piperacillin/0.5 g Tazobactam)",
+      "is_default": true,
+      "drug_amount": 4.5,
+      "drug_unit": "g",
+      "total_volume": 20,
+      "mcg_per_ml": 225000
+    }
+  ]
+},
+{
+  "slug": "cefepime",
+  "drug": "Cefepime",
+  "category": "antibiotic",
+  "generic_name": "Maxipime",
+  "dose_range": "dose_range_cefe",
+  "monitoring": "monitoring_cefe",
+  "diluent_compatibility": "diluent_compatibility_cefe",
+  "stability": "stability_cefe",
+  "site_compatibility": "site_compatibility_cefe",
+  "safety_notes": "safety_notes_cefe",
+  "concentrations": [
+    {
+      "label": "2 g powder for injection (Reconstitute to 100 mg/mL)",
+      "is_default": true,
+      "drug_amount": 2,
+      "drug_unit": "g",
+      "total_volume": 20,
+      "mcg_per_ml": 100000
+    }
+  ]
+},
+{
+  "slug": "vancomycin",
+  "drug": "Vancomycin",
+  "category": "antibiotic",
+  "generic_name": "Vancocin",
+  "dose_range": "dose_range_vanco",
+  "monitoring": "monitoring_vanco",
+  "diluent_compatibility": "diluent_compatibility_vanco",
+  "stability": "stability_vanco",
+  "site_compatibility": "site_compatibility_vanco",
+  "safety_notes": "safety_notes_vanco",
+  "concentrations": [
+    {
+      "label": "1 g powder for injection (Reconstitute to 50 mg/mL)",
+      "is_default": true,
+      "drug_amount": 1,
+      "drug_unit": "g",
+      "total_volume": 20,
+      "mcg_per_ml": 50000
+    }
+  ]
+}
+]
+

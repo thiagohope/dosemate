@@ -1,0 +1,363 @@
+{
+  "drug_keys": [
+    "epinephrine",
+    "aminoglycosides",
+    "amiodarone",
+    "calcium_chloride",
+    "cefepime",
+    "cisatracurium",
+    "dexmedetomidine",
+    "dobutamine",
+    "dopamine",
+    "esmolol",
+    "fentanyl",
+    "furosemide",
+    "heparin",
+    "hydrocortisone",
+    "insulin",
+    "isoproterenol",
+    "isosorbide_dinitrate",
+    "ketamine",
+    "labetalol",
+    "levosimendan",
+    "lorazepam",
+    "magnesium_sulfate",
+    "meropenem",
+    "midazolam",
+    "nicardipine",
+    "nitroglycerin",
+    "norepinephrine",
+    "piperacillin_tazobactam",
+    "potassium_phosphate",
+    "propofol",
+    "remifentanyl",
+    "rocuronium",
+    "sodium_bicarbonate",
+    "sodium_nitroprusside",
+    "thiopental",
+    "tirofiban",
+    "vancomycin",
+    "vasopressin",
+    "vecuronium",
+    "albumin",
+    "amphotericin_b",
+    "metronidazole",
+    "phenytoin",
+    "quinolones"
+  ],
+  
+"matrix": {
+    "epinephrine": {
+      "sodium_bicarbonate": "D",
+      "thiopental": "P",
+      "aminoglycosides": "C",
+      "midazolam": "C"
+    },
+    "aminoglycosides": {
+      "cefepime": "CI",
+      "heparin": "P",
+      "piperacillin_tazobactam": "D",
+      "vancomycin": "CI",
+      "midazolam": "C",
+      "dopamine": "D",
+      "metrondiazle": "CI"
+    },
+    "amiodarone": {
+      "heparin": "P",
+      "sodium_bicarbonate": "P",
+      "lorazepam": "P",
+      "thiopental": "P",
+      "vecuronium": "C"
+    },
+    "calcium_chloride": {
+      "sodium_bicarbonate": "P",
+      "potassium_phosphate": "P",
+      "furosemide": "CI",
+      "hydrocortisone": "P",
+      "magnesium_sulfate": "P",
+      "piperacillin_tazobactam": "CI",
+      "amphotericin_b": "P",
+      "quinolones": "P",
+      "meropenem": "C"
+
+    },
+    "cefepime": {
+      "aminoglycosides": "CI",
+      "midazolam": "CI",
+      "metronidazole": "CI",
+      "sodium_bicarbonate": "CI",
+      "vancomycin": "CI"
+    },
+    "cisatracurium": {
+      "thiopental": "P",
+      "sodium_bicarbonate": "D",
+      "propofol": "C",
+      "furosemide": "C"
+    },
+    "dexmedetomidine": {
+      "heparin": "P",
+      "thiopental": "P",
+      "fentanyl": "C"
+    },
+    "dobutamine": {
+      "sodium_bicarbonate": "D",
+      "piperacillin_tazobactam": "CI",
+      "thiopental": "P"
+    },
+    "dopamine": {
+      "sodium_bicarbonate": "D",
+      "thiopental": "P",
+      "piperacillin_tazobactam": "CI",
+      "phenytoin": "P",
+      "aminoglycosides": "D"
+    },
+    "esmolol": {
+      "sodium_bicarbonate": "P",
+      "furosemide": "P",
+      "thiopental": "P"
+    },
+    "fentanyl": {
+      "thiopental": "P",
+      "propofol": "C",
+      "lorazepam": "C"
+    },
+    "furosemide": {
+      "calcium_chloride": "CI",
+      "norepinephrine": "D",
+      "vancomycin": "CI",
+      "sodium_bicarbonate": "P"
+    },
+    "heparin": {
+      "aminoglycosides": "P",
+      "amiodarone": "P",
+      "dexmedetomidine": "P",
+      "norepinephrine": "C",
+      "piperacillin_tazobactam": "C"
+    },
+    "hydrocortisone": {
+      "midazolam": "CI",
+      "vancomycin": "P",
+      "calcium_chloride": "P",
+      "sodium_bicarbonate": "P"
+    },
+    "insulin": {
+      "thiopental": "P",
+      "dobutamine": "C"
+    },
+    "isoproterenol": {
+      "sodium_bicarbonate": "D",
+      "thiopental": "P"
+    },
+    "isosorbide_dinitrate": {
+      "thiopental": "P"
+    },
+    "ketamine": {
+      "thiopental": "P",
+      "midazolam": "C"
+    },
+    "labetalol": {
+      "sodium_bicarbonate": "P",
+      "thiopental": "P",
+      "furosemide": "P"
+    },
+    "levosimendan": {
+      "furosemide": "P",
+      "thiopental": "P"
+    },
+    "lorazepam": {
+      "amiodarone": "P",
+      "thiopental": "P",
+      "propofol": "C"
+    },
+    "magnesium_sulfate": {
+      "potassium_phosphate": "P",
+      "calcium_chloride": "P",
+      "amphotericin_b": "P",
+      "quinolones": "P"
+
+    },
+    "meropenem": {
+      "vancomycin": "CI",
+      "midazolam": "CI",
+      "aminoglycosides": "CI",
+      "calcium_chloride": "C"
+    },
+    "midazolam": {
+      "cefepime": "CI",
+      "hydrocortisone": "CI",
+      "meropenem": "CI",
+      "sodium_bicarbonate": "P",
+      "thiopental": "P"
+    },
+    "nicardipine": {
+      "thiopental": "P",
+      "fentanyl": "C"
+    },
+    "nitroglycerin": {
+      "thiopental": "P",
+      "levosimendan": "C"
+    },
+    "norepinephrine": {
+      "sodium_bicarbonate": "D",
+      "furosemide": "D",
+      "heparin": "C",
+      "potassium_phosphate": "C",
+      "piperacillin_tazobactam": "CI",
+      "meropenem": "C"
+    },
+    "piperacillin_tazobactam": {
+      "vancomycin": "AKI",
+      "aminoglycosides": "D",
+      "calcium_chloride": "CI",
+      "furosemide": "CI",
+      "dobutamine": "CI",
+      "dopamine": "CI",
+      "sodium_bicarbonate": "CI",
+      "amphotericin_b": "P",
+      "heparin": "C",
+      "metronidazole": "C"
+    },
+    "potassium_phosphate": {
+      "calcium_chloride": "P",
+      "sodium_bicarbonate": "P",
+      "magnesium_sulfate": "P",
+      "norepinephrine": "C"
+    },
+    "propofol": {
+      "thiopental": "P",
+      "levosimendan": "C",
+      "cisatracurium": "C"
+    },
+    "remifentanyl": {
+      "thiopental": "P",
+      "midazolam": "C"
+    },
+    "rocuronium": {
+      "thiopental": "P",
+      "sodium_bicarbonate": "D",
+      "propofol": "C",
+      "cefepime": "C"
+    },    
+    "sodium_bicarbonate": {
+      "potassium_phosphate": "P",
+      "calcium_chloride": "P",
+      "norepinephrine": "D",
+      "cefepime": "CI",
+      "vancomycin": "P",
+      "furosemide": "P",
+      "hydrocortisone": "P",
+      "midazolam": "P",
+      "heparin": "C",
+      "piperacillin_tazobactam": "CI",
+      "epinephrine": "D",
+      "amiodarone": "P",
+      "cisatracurium": "D",
+      "dobutamine": "D",
+      "dopamine": "D",
+      "esmolol": "P",
+      "isoproterenol": "D",
+      "labetalol": "P",
+      "rocuronium": "D",
+      "vecuronium": "D",
+      "amphotericin_b": "P",
+      "quinolones": "P",
+      "vasopressin": "D"
+
+    },
+    "sodium_nitroprusside": {
+      "thiopental": "P"
+    },
+    "thiopental": {
+      "midazolam": "P",
+      "epinephrine": "P",
+      "amiodarone": "P",
+      "cisatracurium": "P",
+      "dexmedetomidine": "P",
+      "dobutamine": "P",
+      "dopamine": "P",
+      "esmolol": "P",
+      "fentanyl": "P",
+      "insulin": "P",
+      "isoproterenol": "P",
+      "isosorbide_dinitrate": "P",
+      "ketamine": "P",
+      "labetalol": "P",
+      "levosimendan": "P",
+      "lorazepam": "P",
+      "nicardipine": "P",
+      "nitroglycerin": "P",
+      "propofol": "P",
+      "remifentanyl": "P",
+      "rocuronium": "P",
+      "sodium_nitroprusside": "P",
+      "vecuronium": "P"
+    },
+    "tirofiban": {
+      "furosemide": "C",
+      "heparin": "C"
+    },
+    "vancomycin": {
+      "piperacillin_tazobactam": "AKI",
+      "furosemide": "CI",
+      "hydrocortisone": "P",
+      "cefepime": "CI",
+      "aminoglycosides": "CI",
+      "sodium_bicarbonate": "P",
+      "meropenem": "CI",
+      "albumin": "CI",
+      "heparin": "P"
+    },
+    "vasopressin": {
+      "sodium_bicarbonate": "D",
+      "thiopental": "P"
+    },
+    "vecuronium": {
+      "thiopental": "P",
+      "sodium_bicarbonate": "D",
+      "propofol": "C",
+      "amiodarone": "C"
+    },
+    "albumin": {
+      "sodium_nitroprusside": "D",
+      "thiopental": "P",
+      "vancomycin": "CI",
+      "phenytoin": "P"
+    },
+    "amphotericin_b": {
+      "sodium_bicarbonate": "P",
+      "calcium_chloride": "P",
+      "magnesium_sulfate": "P",
+      "piperacillin_tazobactam": "P"
+    },
+    "metronidazole": {
+      "cefepime": "CI",
+      "piperacillin_tazobactam": "C",
+      "thiopental": "P",
+      "hydrocortisone": "D",
+      "aminoglycosides": "CI",
+      "quinolones": "CI"
+    },
+    "phenytoin": {
+      "dopamine": "P",
+      "furosemide": "P",
+      "hydrocortisone": "P",
+      "propofol": "P",
+      "albumin": "P"
+    },
+    "quinolones": {
+      "magnesium_sulfate": "P",
+      "calcium_chloride": "P",
+      "sodium_bicarbonate": "P",
+      "heparin": "D",
+      "metronidazole": "CI"
+  }
+  },
+  "key_definitions": {
+    "P": "Precipitation Risk",
+    "D": "Inactivation / Degradation",
+    "AKI": "High AKI Risk (Nephrotoxicity)",
+    "CI": "Y-Site Contraindication (pH / Concentration)",
+    "C": "Compatible",
+    "X": "Not Recommended / No Data"
+  }
+}

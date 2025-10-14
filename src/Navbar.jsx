@@ -1,0 +1,44 @@
+// src/Navbar.jsx
+// Componente de Navegação Global (Header)
+
+import React from 'react';
+import { useTranslation } from 'react-i18next'; // Para suportar a tradução
+import LanguageSelector from './LanguageSelector'; // Seu seletor de idioma
+import icon from './assets/icon.png'; // Seu ícone (logo)
+
+// As classes aqui tornam o cabeçalho mais evidente e usam o Tailwind
+// de forma padronizada, eliminando estilos em linha complexos.
+function Navbar() {
+  const { t } = useTranslation();
+
+  return (
+    // Fundo branco, sombra sutil, fixo no topo
+    <header className="sticky top-0 z-20 bg-white shadow-md border-b border-gray-200"> 
+      <div className="max-w-3xl mx-auto px-4 py-3 flex items-center gap-3">
+        
+        {/* Logo/Ícone - Tornado mais evidente com classes */}
+        <a href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+          <img src={icon} alt="DoseMate Icon" className="w-10 h-10" /> 
+          {/* Aumentamos o tamanho do texto para o logo */}
+          <div className="text-2xl font-bold text-cyan-600">DoseMate</div> 
+        </a>
+
+        {/* Seletor de Idioma */}
+        <div className="ml-4">
+            <LanguageSelector />
+        </div>
+        
+        {/* Links de Navegação Principal */}
+        <nav className="ml-auto hidden sm:flex gap-4 text-sm font-semibold text-gray-700">
+          <a href="/calculator" className="hover:text-cyan-600 transition-colors">{t('nav_calculator')}</a>
+          <a href="/med" className="hover:text-cyan-600 transition-colors">{t('nav_drug_database')}</a>
+          <a href="/matrix" className="hover:text-cyan-600 transition-colors font-bold">{t('nav_matrix')}</a> 
+          <a href="/about" className="hover:text-cyan-600 transition-colors">{t('nav_about')}</a>
+        </nav>      
+      </div>
+    </header>
+  );
+}
+
+export default Navbar;
+

@@ -1,0 +1,99 @@
+[
+  {
+    "drug": "Adrenaline",
+    "slug": "adrenaline",
+    "detail_path": "/med/adrenaline"
+  },
+  {
+    "drug": "Amiodarone",
+    "slug": "amiodarone",
+    "detail_path": "/med/amiodarone"
+  },
+  {
+    "drug": "Cisatracurium",
+    "slug": "cisatracurium",
+    "detail_path": "/med/cisatracurium"
+  },
+  {
+    "drug": "Dexmedetomidine",
+    "slug": "dexmedetomidine",
+    "detail_path": "/med/dexmedetomidine"
+  },
+  {
+    "drug": "Furosemide",
+    "slug": "furosemide",
+    "detail_path": "/med/furosemide"
+  },
+  {
+    "drug": "Dobutamine",
+    "slug": "dobutamine",
+    "detail_path": "/med/dobutamine"
+  },
+  {
+    "drug": "Heparin",
+    "slug": "heparin",
+    "detail_path": "/med/heparin"
+  },
+  {
+    "drug": "Isoprenaline",
+    "slug": "isoprenaline",
+    "detail_path": "/med/isoprenaline"
+  },
+  {
+    "drug": "Labetalol",
+    "slug": "labetalol",
+    "detail_path": "/med/labetalol"
+  },
+  {
+    "drug": "Midazolam",
+    "slug": "midazolam",
+    "detail_path": "/med/midazolam"
+  },
+  {
+    "drug": "Nitroglycerin",
+    "slug": "nitroglycerin",
+    "detail_path": "/med/nitroglycerin"
+  },
+  {
+    "drug": "Noradrenaline",
+    "slug": "noradrenaline",
+    "detail_path": "/med/noradrenaline",
+    "concentrations": [
+      {
+        "label": "Padrão: 4 mg em 50 mL",
+        "ug_per_ml": 80.0,
+        "is_default": true,
+        "notes": "Concentração mais comum"
+      }
+    ],
+    "dose_ranges": {
+      "adult": {
+        "standard": {
+          "min": 0.02,
+          "max": 1.0,
+          "unit": "mcg/kg/min"
+        }
+      }
+    }
+  },
+  {
+    "drug": "Octreotide",
+    "slug": "octreotide",
+    "detail_path": "/med/octreotide"
+  },
+  {
+    "drug": "Propofol",
+    "slug": "propofol",
+    "detail_path": "/med/propofol"
+  },
+  {
+    "drug": "Rocuronium",
+    "slug": "rocuronium",
+    "detail_path": "/med/rocuronium"
+  },
+  {
+    "drug": "Vasopressin",
+    "slug": "vasopressin",
+    "detail_path": "/med/vasopressin"
+  }
+]

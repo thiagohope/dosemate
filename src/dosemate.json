@@ -1,0 +1,41 @@
+{
+  "drug": "Noradrenaline",
+  "aliases": [],
+  "class": "vasopressor",
+  "routes": ["IV central","IV peripheral"],
+  "concentrations": [
+    {
+      "label": "4 mg in 50 mL (NS)",
+      "prep": {"drug_amount_mg": 4, "diluent": "NS 0.9%", "final_volume_ml": 50},
+      "ug_per_ml": 80.0,
+      "notes": "proteger da luz"
+    }
+  ],
+  "dose_ranges": {
+    "adult": {
+      "standard": {"min": 0.02, "max": 1.0, "unit": "mcg/kg/min"},
+      "rescue": {"min": 1.0, "max": 3.0, "unit": "mcg/kg/min"},
+      "titration_step": {"value": 0.02, "unit": "mcg/kg/min"}
+    },
+    "pediatric": { "standard": {"min": 0.02, "max": 1.0, "unit": "mcg/kg/min"} }
+  },
+  "diluents_compatibility": {"compatible": ["NS 0.9%","D5W"], "incompatible": [], "unknown": []},
+  "y_site_compatibility": {"compatible_with": [], "incompatible_with": [], "unknown_with": []},
+  "stability": {"room_temp_hours": 24, "fridge_hours": 48, "light_protection": true, "adsorption_risk": {"PVC": false, "notes": ""}},
+  "safety": {
+    "access": "prefer central line",
+    "max_conc_ug_per_ml_peripheral": 64,
+    "monitoring": ["MAP","HR","diurese","lactato"],
+    "common_adverse_effects": ["taquicardia","isquemia periférica"],
+    "serious_adverse_effects": ["arritmias","isquemia digital"]
+  },
+  "pkpd": {"onset_min": 1, "half_life_min": 2, "mechanism": "α1/β1"},
+  "adjustments": {"renal": "sem ajuste típico", "hepatic": "usar com cautela"},
+  "calc": {
+    "supported_dose_units": ["mcg/kg/min","mcg/kg/h","mg/kg/min","mg/kg/h","mcg/min","mg/min"],
+    "formula_ml_per_h_from_dose": "ml_per_h = (dose_per_kg * weight_kg * factor_to_mcg_per_min * 60) / concentration_mcg_per_ml",
+    "formula_dose_from_ml_per_h": "dose_per_kg = (ml_per_h * concentration_mcg_per_ml) / (weight_kg * 60 * factor_to_mcg_per_min)"
+  },
+  "references": [],
+  "metadata": {"last_reviewed": "YYYY-MM-DD", "author": ""}
+}

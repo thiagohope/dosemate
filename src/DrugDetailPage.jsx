@@ -99,24 +99,35 @@ export default function DrugDetailPage({ allDrugs = [] }) {
         </div>
         
         {/* Main drug container (Applies subtle conditional background color) */}
-        <div className={`shadow-xl rounded-lg overflow-hidden border ${drugStyle.bg} p-6`}>
+        <div 
+          className={`shadow-xl rounded-lg overflow-hidden border ${drugStyle.bg} p-6`}
+          // COMENTÁRIO SEO: Usando itemprop e itemscope para simular Schema.org (Google valoriza conteúdo médico estruturado)
+          itemScope itemType="http://schema.org/MedicalGuideline"
+        >
           
           {/* Main Title */}
-          <h1 className={`text-4xl font-extrabold ${drugStyle.text} mb-2`}>
+          <h1 
+            className={`text-4xl font-extrabold ${drugStyle.text} mb-2`}
+            // COMENTÁRIO SEO: Adiciona atributos que ajudam na identificação do conteúdo da página
+            aria-label={`Drug information and infusion guide for ${drug.drug}`}
+            itemProp="name" // Propriedade primária do Schema.org
+          >
             {drug.drug}
-          </h1>
-          <p className="text-sm text-gray-500 mb-6 border-b pb-4">
+          </h1>          <p className="text-sm text-gray-500 mb-6 border-b pb-4">
             {t('drug_detail_generic_name', { name: drug.generic_name || 'N/A' })}
           </p>
 
           {/* Concentrations Section */}
-          <h2 className="text-2xl font-bold text-gray-800 mb-4 border-b pb-2">
+          <h2 
+            className="text-2xl font-bold text-gray-800 mb-4 border-b pb-2"
+            // COMENTÁRIO SEO: Usando a tag H2 para hierarquia de conteúdo e itemProp para Schema
+            itemProp="summary" // O resumo do guia médico (concentrações)
+          >
             {t('drug_detail_concentrations')}
-          </h2>
-          
+          </h2>          
           <div className="space-y-4">
 
-{/* Lists standard concentrations from JSON */}
+          {/* Lists standard concentrations from JSON */}
             {drug.concentrations && drug.concentrations.map((conc, index) => {
               // Lida com nomes de propriedades inconsistentes para unidades por mL
               const unitsPerMl = conc.U_per_ml || conc.U_per_mL;
@@ -163,50 +174,65 @@ export default function DrugDetailPage({ allDrugs = [] }) {
           </div>
        
           {/* Dosing and Information Section */}
-          <h2 className="text-2xl font-bold text-gray-800 mb-4 mt-8 border-b pb-2">
+          <h2 
+            className="text-2xl font-bold text-gray-800 mb-4 mt-8 border-b pb-2"
+            // COMENTÁRIO SEO: Usando a tag H2 para hierarquia de conteúdo e itemProp para Schema
+            itemProp="purpose" // O objetivo do guia médico (informações de dosagem)
+          >
             {t('drug_detail_dosing_info')}
           </h2>
-
-          <div className="space-y-4 text-gray-700 leading-relaxed"> 
+<div className="space-y-4 text-gray-700 leading-relaxed"> 
             
             {/* 1. FAIXA DE DOSE (DOSE RANGE) - DESTAQUE */}
+            <h3 className="text-lg font-bold text-gray-800" itemProp="dosage"> {/* COMENTÁRIO SEO: H3 e itemprop em inglês */}
+                {t('drug_detail_dose_range')}
+            </h3>
             <div className="p-3 bg-cyan-50 rounded-lg border border-cyan-300 shadow-sm">
-                <p className="font-extrabold text-cyan-800">
-                    {t('drug_detail_dose_range')}:&nbsp; 
-                    <span className="font-normal">{t(drug.dose_range) || t('info_not_specified')}</span>
+                <p className="font-normal text-cyan-800">
+                    <span className="sr-only">{t('drug_detail_dose_range')}: </span>
+                    {t(drug.dose_range) || t('info_not_specified')}
                 </p>
             </div>
             
             {/* 2. Compatibilidade com Diluentes */}
+            <h3 className="text-lg font-bold text-gray-800" itemProp="diluentCompatibility"> {/* COMENTÁRIO SEO: H3 e itemprop em inglês */}
+              {t('drug_detail_diluent_compatibility')}
+            </h3>
             <p>
-              <span className="font-semibold">{t('drug_detail_diluent_compatibility')}:&nbsp;</span> 
-              {t(drug.diluent_compatibility) || t('info_not_specified')}
+                {t(drug.diluent_compatibility) || t('info_not_specified')}
             </p>
             
             {/* 3. Compatibilidade no Sítio de Infusão */}
+            <h3 className="text-lg font-bold text-gray-800"> {/* COMENTÁRIO SEO: H3 */}
+              {t('drug_detail_site_compatibility')}
+            </h3>
             <p>
-              <span className="font-semibold">{t('drug_detail_site_compatibility')}:&nbsp;</span> 
-              {t(drug.site_compatibility) || t('info_not_specified')}
+                {t(drug.site_compatibility) || t('info_not_specified')}
             </p>
             
             {/* 4. Estabilidade da Solução */}
+            <h3 className="text-lg font-bold text-gray-800" itemProp="stability"> {/* COMENTÁRIO SEO: H3 e itemprop em inglês */}
+              {t('drug_detail_stability')}
+            </h3>
             <p>
-              <span className="font-semibold">{t('drug_detail_stability')}:&nbsp;</span> 
-              {t(drug.stability) || t('info_not_specified')}
+                {t(drug.stability) || t('info_not_specified')}
             </p>
             
             {/* 5. Monitoramento */}
+            <h3 className="text-lg font-bold text-gray-800" itemProp="monitoring"> {/* COMENTÁRIO SEO: H3 e itemprop em inglês */}
+              {t('drug_detail_monitoring')}
+            </h3>
             <p>
-              <span className="font-semibold">{t('drug_detail_monitoring')}:&nbsp;</span> 
-              {t(drug.monitoring) || t('info_not_specified')}
+                {t(drug.monitoring) || t('info_not_specified')}
             </p>
             
             {/* 6. Segurança de Uso/Observações Importantes */}
+            <h3 className="text-lg font-bold text-gray-800"> {/* COMENTÁRIO SEO: H3 */}
+              {t('drug_detail_safety_notes')}
+            </h3>
             <p>
-              <span className="font-semibold">{t('drug_detail_safety_notes')}:&nbsp;</span> 
-              {t(drug.safety_notes) || t('info_not_specified')}
+                {t(drug.safety_notes) || t('info_not_specified')}
             </p>
-            
             
             {/* Safety Warning (Geral) */}
             <div className="mt-6 text-xs text-red-700 leading-relaxed p-3 bg-red-100 rounded-lg border border-red-300">

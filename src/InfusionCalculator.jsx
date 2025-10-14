@@ -242,13 +242,21 @@ export default function InfusionCalculator({ allDrugs = [] }) {
     }
   }, [mlPerH, weight, baseConcentrationPerMl, doseUnit]);
 
-  // NOVO LAYOUT COMEÇA AQUI
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-800">
+<div className="min-h-screen bg-gray-50 text-gray-800">
       <Navbar />
-      <div className="max-w-3xl mx-auto p-4 space-y-6">{/* Container principal do conteúdo */}
+      <div 
+        className="max-w-3xl mx-auto p-4 space-y-6"
+        // COMENTÁRIO SEO: Adiciona Schema.org/SoftwareApplication para indicar que a página contém uma ferramenta
+        itemScope itemType="http://schema.org/SoftwareApplication"
+      >
         <div className="rounded-2xl shadow-xl p-4 md:p-6 bg-white border border-gray-200">
-          <h2 className="text-xl md:text-2xl font-bold mb-4 text-cyan-700">
+          <h2 
+            className="text-xl md:text-2xl font-bold mb-4 text-cyan-700"
+            // COMENTÁRIO SEO: Define o nome da aplicação e um aria-label em inglês
+            itemProp="name" 
+            aria-label="Continuous Infusion Calculator"
+          >
             {t('calculator_params_title')}
           </h2>
           {/* ----------------------------------------------------------------------------------- */}

@@ -373,5 +373,9 @@
   "setting_kcl_conc_description": "Utilice la concentración estándar en su institución.",
   "kcl_conc_2meq": "2 mEq/mL (ej: 10 mEq en 5 mL)",
   "kcl_conc_4meq": "4 mEq/mL (ej: 20 mEq en 5 mL)",
-  "setting_save_button": "Guardar Configuración"
+  "setting_save_button": "Guardar Configuración",
+
+  "ADVERTISING_START": "--- PUBLICIDAD ---",
+  "ad_brainbox_promo": "¡Mejora tu razonamiento clínico con BrainBox! Visita www.brainbox.com para más información.",
+  "ad_brainbox_cta": "Accede a la plataforma de estudio Brainboxmed.com"
 }

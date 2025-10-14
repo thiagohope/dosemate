@@ -57,20 +57,76 @@ export default function DoseMateHome({ allDrugs = [], isFullList = false }) {
 
   return (
     <div className="min-h-screen" style={{ background: brand.bg, color: brand.text }}>
-      
-      <Navbar />
+     <Navbar />
 
-      {/* Hero / Primary CTA */}
-      <section className="max-w-3xl mx-auto px-4 py-6">
+      {/* Hero / Primary CTA e Metadados SEO */}
+      <section 
+        className="max-w-3xl mx-auto px-4 py-6"
+        // COMENTÁRIO SEO: Schema.org principal para a Home, identificando o site como a landing page do App
+        itemScope itemType="http://schema.org/SoftwareApplication" 
+        >
         <div className="rounded-3xl p-5 md:p-6 shadow-sm border" style={{ background: brand.card, borderColor: brand.line }}>
           <div className="flex items-center justify-between gap-4">
             <div>
-              <h1 className="text-2xl md:text-3xl font-bold mb-1" style={{ color: brand.primaryDark }}>{t('home_title')}</h1>
-              <p className="text-sm md:text-base" style={{ color: brand.subtle }}>{t('home_subtitle')}</p>
+              {/* H1 com palavras-chave de ASO e nome do produto */}
+              <h1 
+                className="text-2xl md:text-3xl font-bold mb-1" 
+                style={{ color: brand.primaryDark }}
+                itemProp="name" // Nome do Aplicativo
+                aria-label="DoseMate Continuous Infusion Calculator"
+              >
+                {t('home_title')}
+              </h1>
+              {/* Descrição curta para SEO/ASO */}
+              <p 
+                className="text-sm md:text-base" 
+                style={{ color: brand.subtle }}
+                itemProp="description"
+              >
+                {t('home_subtitle')}
+              </p>
             </div>
-            <PillButton href="/calculator">{t('open_button')}</PillButton>
           </div>
-        </div>
+
+          {/* Ícones de loja lado a lado, sem texto traduzido (pois o ícone já é a CTA) */}
+            <div className="flex flex-row items-center justify-center gap-3"> 
+              <a 
+                href="[LINK_APP_STORE]" 
+                aria-label="Download on Apple App Store" // em inglês para ASO/SEO
+                className="transition-transform hover:scale-[1.05] active:scale-[0.98]"
+              >
+                {/* Aumentando a altura da imagem de h-10 para h-14 (56px) */}
+                <img src="/assets/apple_store_badge.svg" alt="Baixar na Apple App Store" className="h-14" /> 
+              </a>
+              <a 
+                href="[LINK_PLAY_STORE]" 
+                aria-label="Download on Google Play Store" // em inglês para ASO/SEO
+                className="transition-transform hover:scale-[1.05] active:scale-[0.98]"
+              >
+                {/* Aumentando a altura da imagem de h-10 para h-14 (56px) */}
+                <img src="/assets/google_play_badge.svg" alt="Baixar no Google Play" className="h-14" />
+              </a>
+            </div>
+          </div>
+      </section>
+
+      {/* Bloco de Publicidade / Cross-Promotion BrainboxMed - Inserido entre Calculator e Database */}
+      <section className="max-w-3xl mx-auto px-4 py-4"> 
+        <a 
+          href="[www.brainboxmed.com]"
+          className="block w-full rounded-3xl p-5 shadow-lg transition-transform hover:scale-[1.02] active:scale-[0.98] border border-transparent" 
+          style={{ background: '#5e3e94', color: '#fff' }} // Cor principal do Brainbox
+          aria-label="Access BrainboxMed Question Bank" // em inglês para ASO/SEO
+        >
+          <div className="flex flex-col items-center justify-center">
+            <p className="text-sm font-semibold mb-1 opacity-80">{t('ad_brainbox_promo')}</p>
+            <h3 className="text-2xl font-extrabold tracking-tight">
+              Brainbox<span style={{ color: '#f39c12' }}>Med</span> 
+              <sup className="text-sm font-semibold ml-1">™</sup>
+            </h3>
+            <p className="mt-2 text-sm font-medium">{t('ad_brainbox_cta')}</p>
+          </div>
+        </a>
       </section>
 
       {/* Database / Quick search */}
@@ -108,20 +164,35 @@ export default function DoseMateHome({ allDrugs = [], isFullList = false }) {
         </div>
       </section>
 
-      {/* Quick links */}
-      <section className="max-w-3xl mx-auto px-4 pb-20">
-        <div className="grid grid-cols-2 gap-3">
-          {/* CORRIGIDO */}
-          <a href="/calculator" className="rounded-3xl p-4 text-center font-semibold" style={{ background: brand.card, border: `1px solid ${brand.line}` }}>{t('nav_calculator')}</a>
-          <a href="/med" className="rounded-3xl p-4 text-center font-semibold" style={{ background: brand.card, border: `1px solid ${brand.line}` }}>{t('nav_drug_database')}</a>
-        </div>
-      </section>
+{/* Quick links - Otimizados para Schema/ASO */}
+      <section className="max-w-3xl mx-auto px-4 pb-20">
+        <div className="grid grid-cols-2 gap-3">
+          <a 
+            href="/calculator" 
+            className="rounded-3xl p-4 text-center font-semibold" 
+            style={{ background: brand.card, border: `1px solid ${brand.line}` }}
+            itemProp="feature" 
+            aria-label="Infusion Rate Calculator" // em inglês
+          >
+            {t('nav_calculator')}
+          </a>
+          <a 
+            href="/med" 
+            className="rounded-3xl p-4 text-center font-semibold" 
+            style={{ background: brand.card, border: `1px solid ${brand.line}` }}
+            itemProp="feature" 
+            aria-label="Drug Database" // em inglês
+          >
+            {t('nav_drug_database')}
+          </a>
+        </div>
+      </section>
 
       {/* Bottom Tab (app-like) - Refatorado para Tailwind puro */}
       <nav className="fixed bottom-0 left-0 right-0 border-t border-gray-200 bg-white">
         <div className="max-w-3xl mx-auto grid grid-cols-4 text-sm text-gray-500">
           
-          {/* 1. CALCULADORA - NOVO! Mover a Calculadora para a primeira posição */}
+          {/* 1. CALCULADORA */}
           <a href="/calculator" className="flex flex-col items-center py-2 text-cyan-600 font-semibold hover:text-cyan-600 transition-colors">
             <span>{t('nav_calc_short')}</span>
           </a>
@@ -131,7 +202,7 @@ export default function DoseMateHome({ allDrugs = [], isFullList = false }) {
             <span>{t('nav_drugs')}</span>
           </a>
           
-          {/* 3. MATRIZ (Substitui o link Home) */}
+          {/* 3. MATRIZ */}
           <a href="/matrix" className="flex flex-col items-center py-2 hover:text-cyan-600 transition-colors">
             <span>{t('nav_matrix')}</span>
           </a>

@@ -35,24 +35,39 @@ export default function AboutPage() {
             
             <h2 className="text-2xl font-bold text-gray-800">{t('about_section_mission_title')}</h2>
             
-            <p>
+            <p itemProp="about"> {/* COMENTÁRIO SEO: itemProp para indicar o tópico da página */}
               <span>{t('about_mission_part_1_start')}</span>
               
-              {/* Nome da Marca com Cores e Estilos */}
-              <span style={{ color: '#5e3e94', fontWeight: 700 }}>Brainbox</span>
-              <span style={{ color: '#f39c12', fontWeight: 700 }}>Med</span>
+              {/* Nome da Marca com Cores e Estilos - Otimizado para SEO/E-A-T */}
+              {/* COMENTÁRIO SEO: Adiciona Schema.org/Organization e Person para Autoria/Confiança (E-A-T) em um span pai para manter o estilo */}
+              <span 
+                itemScope itemProp="provider" itemType="http://schema.org/Organization"
+              >
+                <span itemProp="name" className="sr-only">BrainboxMed</span> {/* Nome completo para bots, escondido */}
+                <span style={{ color: '#5e3e94', fontWeight: 700 }} aria-hidden="true">Brainbox</span>
+                <span style={{ color: '#f39c12', fontWeight: 700 }} aria-hidden="true">Med</span>
+              </span>
               <sup className="text-xs font-semibold">™</sup> {/* Marca Registrada */ }
               
               <span>{t('about_mission_part_1_end')}</span>
-            </p>
-            
+            </p>            
             <p>
               {t('about_section_mission_text_2')}
             </p>
 
-            {/* AVISO LEGAL E SEGURANÇA (Destaque) */}
-            <div className="mt-8 text-sm text-red-700 leading-relaxed p-4 bg-red-100 rounded-lg border border-red-300 shadow-md">
-                <p className="font-semibold text-lg">{t('safety_warning_title_02')}</p>
+            {/* AVISO LEGAL E SEGURANÇA (Destaque) - OTIMIZADO PARA SEO/E-E-A-T */}
+            <div 
+                className="mt-8 text-sm text-red-700 leading-relaxed p-4 bg-red-100 rounded-lg border border-red-300 shadow-md"
+                // COMENTÁRIO SEO: Usando o Schema.org/WebPageElement para sinalizar um bloco de Aviso/Alerta
+                itemScope itemType="http://schema.org/Disclaimer" 
+                itemProp="publisherImprint" // Define isso como uma 'impressão' regulamentar do editor
+            >
+                <p 
+                    className="font-semibold text-lg"
+                    itemProp="headline" // O título do Aviso
+                >
+                    {t('safety_warning_title_02')}
+                </p>
                 <p className="mt-2">{t('about_disclaimer_text_1')}</p>
                 <p className="mt-2">{t('about_disclaimer_text_2')}</p>
             </div>

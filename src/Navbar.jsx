@@ -29,13 +29,42 @@ function Navbar() {
         </div>
         
         {/* Links de Navegação Principal */}
-        <nav className="ml-auto hidden sm:flex gap-4 text-sm font-semibold text-gray-700">
-          <a href="/calculator" className="hover:text-cyan-600 transition-colors">{t('nav_calculator')}</a>
-          <a href="/med" className="hover:text-cyan-600 transition-colors">{t('nav_drug_database')}</a>
-          <a href="/matrix" className="hover:text-cyan-600 transition-colors font-bold">{t('nav_matrix')}</a> 
-          <a href="/about" className="hover:text-cyan-600 transition-colors">{t('nav_about')}</a>
+        <nav 
+          className="ml-auto hidden sm:flex gap-4 text-sm font-semibold text-gray-700"
+          // COMENTÁRIO SEO: Adiciona aria-label para acessibilidade e clareza para bots (em inglês)
+          aria-label="Main Medical Navigation"
+        >
+          {/* Adicionando aria-label (em inglês) para cada link para clareza contextual */}
+          <a 
+            href="/calculator" 
+            className="hover:text-cyan-600 transition-colors"
+            aria-label="Infusion Calculator"
+          >
+            {t('nav_calculator')}
+          </a>
+          <a 
+            href="/med" 
+            className="hover:text-cyan-600 transition-colors"
+            aria-label="Drug Database"
+          >
+            {t('nav_drug_database')}
+          </a>
+          <a 
+            href="/matrix" 
+            className="hover:text-cyan-600 transition-colors font-bold"
+            aria-label="Drug Incompatibility Matrix"
+          >
+            {t('nav_matrix')}
+          </a> 
+          <a 
+            href="/about" 
+            className="hover:text-cyan-600 transition-colors"
+            aria-label="About DoseMate"
+          >
+            {t('nav_about')}
+          </a>
         </nav>      
-      </div>
+      </div>  
     </header>
   );
 }

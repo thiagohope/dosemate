@@ -25,6 +25,8 @@
   "nav_settings": "Settings",
   "nav_matrix": "Incompatibilities",
   "search_placeholder": "Search for a drug (e.g., noradrenaline)",
+  "download_apple": "Download for iOS (Apple)",
+  "download_google": "Download for Android",
 
   "HOME_SECTION_START": "--- HOME ---",
   "home_title": "Dose Calculator",
@@ -373,5 +375,9 @@
   "setting_kcl_conc_description": "Use the concentration standard in your institution.",
   "kcl_conc_2meq": "2 mEq/mL (e.g., 10 mEq in 5 mL)",
   "kcl_conc_4meq": "4 mEq/mL (e.g., 20 mEq in 5 mL)",
-  "setting_save_button": "Save Settings"
+  "setting_save_button": "Save Settings",
+
+  "ADVERTISING_START": "--- ADVERTISEMENT ---",
+  "ad_brainbox_promo": "Improve your clinical reasoning with BrainBox! Visit www.brainbox.com for more information.",
+  "ad_brainbox_cta": "Access the Brainboxmed.com study platform"
 }

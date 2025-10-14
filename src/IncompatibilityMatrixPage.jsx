@@ -45,7 +45,6 @@ const EXTERNAL_DRUG_NAMES = {
     'quinolones': 'Quinolones',
 };
 
-
 export default function IncompatibilityMatrixPage({ allDrugs = [] }) {
     const { t } = useTranslation();
 
@@ -84,12 +83,24 @@ export default function IncompatibilityMatrixPage({ allDrugs = [] }) {
 
     return (
         <div className="min-h-screen bg-gray-50">
-            <Navbar />
+<Navbar />
             <main className="container mx-auto p-4 md:p-8">
-                <div className="bg-white p-6 rounded-xl shadow-lg">
-                    <h1 className="text-3xl font-bold text-cyan-800 mb-6">{t('incompatibility_matrix_title')}</h1>
-                    <p className="text-gray-600 mb-6">{t('matrix_description')}</p>
-
+                {/* COMENTÁRIO SEO: Adiciona Schema.org/Dataset para indicar que este é um recurso de dados */}
+                <div className="bg-white p-6 rounded-xl shadow-lg" itemScope itemType="http://schema.org/Dataset">
+                    <h1 
+                        className="text-3xl font-bold text-cyan-800 mb-6"
+                        itemProp="name" // Nome do dataset
+                        // COMENTÁRIO SEO: Adicionando aria-label em inglês para bots/acessibilidade
+                        aria-label="Drug Incompatibility Matrix for IV Infusion"
+                    >
+                        {t('incompatibility_matrix_title')}
+                    </h1>
+                    <p 
+                        className="text-gray-600 mb-6"
+                        itemProp="description" // Descrição do dataset
+                    >
+                        {t('matrix_description')}
+                    </p>
                     <div className="overflow-x-auto">
                         <table className="min-w-full divide-y divide-gray-200 border border-gray-300">
                             <thead className={INCOMPATIBILITY_COLORS.header}>

@@ -1,6 +1,7 @@
 // src/Navbar.jsx
 // Componente de Navegação Global (Header)
 
+import { Link } from 'react-router-dom';
 import React from 'react';
 import { useTranslation } from 'react-i18next'; // Para suportar a tradução
 import LanguageSelector from './LanguageSelector'; // Seu seletor de idioma
@@ -17,11 +18,10 @@ function Navbar() {
       <div className="max-w-3xl mx-auto px-4 py-3 flex items-center gap-3">
         
         {/* Logo/Ícone - Tornado mais evidente com classes */}
-        <a href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+        <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
           <img src={icon} alt="DoseMate Icon" className="w-10 h-10" /> 
-          {/* Aumentamos o tamanho do texto para o logo */}
           <div className="text-2xl font-bold text-cyan-600">DoseMate</div> 
-        </a>
+        </Link>
 
         {/* Seletor de Idioma */}
         <div className="ml-4">
@@ -35,34 +35,34 @@ function Navbar() {
           aria-label="Main Medical Navigation"
         >
           {/* Adicionando aria-label (em inglês) para cada link para clareza contextual */}
-          <a 
-            href="/calculator" 
+          <Link 
+            to="/calculator" 
             className="hover:text-cyan-600 transition-colors"
             aria-label="Infusion Calculator"
           >
             {t('nav_calculator')}
-          </a>
-          <a 
-            href="/med" 
+          </Link>
+          <Link 
+            to="/med" 
             className="hover:text-cyan-600 transition-colors"
             aria-label="Drug Database"
           >
             {t('nav_drug_database')}
-          </a>
-          <a 
-            href="/matrix" 
+          </Link>
+          <Link 
+            to="/matrix" 
             className="hover:text-cyan-600 transition-colors font-bold"
             aria-label="Drug Incompatibility Matrix"
           >
             {t('nav_matrix')}
-          </a> 
-          <a 
-            href="/about" 
+          </Link> 
+          <Link 
+            to="/about" 
             className="hover:text-cyan-600 transition-colors"
             aria-label="About DoseMate"
           >
             {t('nav_about')}
-          </a>
+          </Link>
         </nav>      
       </div>  
     </header>

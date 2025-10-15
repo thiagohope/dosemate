@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import React, { useMemo, useState } from "react";
 import { useTranslation } from 'react-i18next';
 import LanguageSelector from './LanguageSelector';
@@ -27,9 +28,9 @@ function PillButton({ children, href, variant = "primary" }) {
     ? { background: brand.primary, color: "#fff", border: `1px solid ${brand.primary}` }
     : { background: "#fff", color: brand.primary, border: `1px solid ${brand.primary}` };
   return (
-    <a href={href} className="inline-flex items-center justify-center px-4 py-3 rounded-2xl font-semibold" style={styles}>
+    <Link to={to} className="inline-flex items-center justify-center px-4 py-3 rounded-2xl font-semibold" style={styles}>
       {children}
-    </a>
+    </Link>
   );
 }
 
@@ -90,21 +91,15 @@ export default function DoseMateHome({ allDrugs = [], isFullList = false }) {
 
           {/* Ícones de loja lado a lado, sem texto traduzido (pois o ícone já é a CTA) */}
             <div className="flex flex-row items-center justify-center gap-3"> 
-<a 
-                href="[LINK_APP_STORE]" 
-                aria-label="Download on Apple App Store"
-                className="transition-transform hover:scale-[1.05] active:scale-[0.98]"
-              >
-                <img src="assets/apple_store_badge.svg" alt="Baixar na Apple App Store" className="h-14" /> 
-              </a>
               <a 
                 href="[LINK_PLAY_STORE]" 
                 aria-label="Download on Google Play Store" 
                 className="transition-transform hover:scale-[1.05] active:scale-[0.98]"
               >
                 <img src="assets/google_play_badge.svg" alt="Baixar no Google Play" className="h-14" />
-              </a>            </div>
-          </div>
+              </a>     
+           </div>
+        </div>
       </section>
 
       {/* Bloco de Publicidade / Cross-Promotion BrainboxMed - Inserido entre Calculator e Database */}
@@ -131,9 +126,8 @@ export default function DoseMateHome({ allDrugs = [], isFullList = false }) {
         <div className="rounded-3xl p-5 shadow-sm border" style={{ background: brand.card, borderColor: brand.line }}>
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-lg md:text-xl font-semibold">{t('drug_database_title')}</h2>
-            <a href="/med" className="text-sm font-semibold" style={{ color: brand.primary }}>{t('view_all_link')}</a>
+            <Link to="/med" className="text-sm font-semibold" style={{ color: brand.primary }}>{t('view_all_link')}</Link>
           </div>
-
           <div className="mb-4">
             <input
               type="search"
@@ -148,66 +142,66 @@ export default function DoseMateHome({ allDrugs = [], isFullList = false }) {
           <ul className="divide-y" style={{ borderColor: brand.line }}>
             {filtered.map((d) => (
               <li key={d.slug}>
-                <a href={d.detail_path || `/med/${d.slug}`} className="flex items-center justify-between py-3">
+                <Link to={d.detail_path || `/med/${d.slug}`} className="flex items-center justify-between py-3">
                   <div className="min-w-0">
                     <div className="font-semibold truncate">{d.drug}</div>
                     <div className="text-xs text-gray-500 truncate">{t('drug_list_concentration_details')}</div>
                   </div>
                   <div className="text-gray-400"><ChevronRight /></div>
-                </a>
+                </Link>
               </li>
             ))}
-          </ul>
+          </ul>        
         </div>
       </section>
 
-{/* Quick links - Otimizados para Schema/ASO */}
-      <section className="max-w-3xl mx-auto px-4 pb-20">
-        <div className="grid grid-cols-2 gap-3">
-          <a 
-            href="/calculator" 
-            className="rounded-3xl p-4 text-center font-semibold" 
-            style={{ background: brand.card, border: `1px solid ${brand.line}` }}
-            itemProp="feature" 
-            aria-label="Infusion Rate Calculator" // em inglês
-          >
-            {t('nav_calculator')}
-          </a>
-          <a 
-            href="/med" 
-            className="rounded-3xl p-4 text-center font-semibold" 
-            style={{ background: brand.card, border: `1px solid ${brand.line}` }}
-            itemProp="feature" 
-            aria-label="Drug Database" // em inglês
-          >
-            {t('nav_drug_database')}
-          </a>
-        </div>
-      </section>
+      {/* Quick links - Otimizados para Schema/ASO */}
+      <section className="max-w-3xl mx-auto px-4 pb-20">
+        <div className="grid grid-cols-2 gap-3">
+          <Link 
+            to="/calculator" 
+            className="rounded-3xl p-4 text-center font-semibold" 
+            style={{ background: brand.card, border: `1px solid ${brand.line}` }}
+            itemProp="feature" 
+            aria-label="Infusion Rate Calculator" // em inglês
+          >
+            {t('nav_calculator')}
+          </Link>
+          <Link 
+            to="/med" 
+            className="rounded-3xl p-4 text-center font-semibold" 
+            style={{ background: brand.card, border: `1px solid ${brand.line}` }}
+            itemProp="feature" 
+            aria-label="Drug Database" // em inglês
+          >
+            {t('nav_drug_database')}
+          </Link>
+        </div>
+      </section>
 
       {/* Bottom Tab (app-like) - Refatorado para Tailwind puro */}
       <nav className="fixed bottom-0 left-0 right-0 border-t border-gray-200 bg-white">
         <div className="max-w-3xl mx-auto grid grid-cols-4 text-sm text-gray-500">
           
           {/* 1. CALCULADORA */}
-          <a href="/calculator" className="flex flex-col items-center py-2 text-cyan-600 font-semibold hover:text-cyan-600 transition-colors">
+          <Link to="/calculator" className="flex flex-col items-center py-2 text-cyan-600 font-semibold hover:text-cyan-600 transition-colors">
             <span>{t('nav_calc_short')}</span>
-          </a>
+          </Link>
           
           {/* 2. DROGAS */}
-          <a href="/med" className="flex flex-col items-center py-2 hover:text-cyan-600 transition-colors">
+          <Link to="/med" className="flex flex-col items-center py-2 hover:text-cyan-600 transition-colors">
             <span>{t('nav_drugs')}</span>
-          </a>
+          </Link>
           
           {/* 3. MATRIZ */}
-          <a href="/matrix" className="flex flex-col items-center py-2 hover:text-cyan-600 transition-colors">
+          <Link to="/matrix" className="flex flex-col items-center py-2 hover:text-cyan-600 transition-colors">
             <span>{t('nav_matrix')}</span>
-          </a>
+          </Link>
           
           {/* 4. CONFIGURAÇÕES */}
-          <a href="/settings" className="flex flex-col items-center py-2 hover:text-cyan-600 transition-colors">
+          <Link to="/settings" className="flex flex-col items-center py-2 hover:text-cyan-600 transition-colors">
             <span>{t('nav_settings')}</span>
-          </a>
+          </Link>
         </div>
       </nav>    
     </div>

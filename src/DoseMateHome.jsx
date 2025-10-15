@@ -90,23 +90,20 @@ export default function DoseMateHome({ allDrugs = [], isFullList = false }) {
 
           {/* Ícones de loja lado a lado, sem texto traduzido (pois o ícone já é a CTA) */}
             <div className="flex flex-row items-center justify-center gap-3"> 
-              <a 
+<a 
                 href="[LINK_APP_STORE]" 
-                aria-label="Download on Apple App Store" // em inglês para ASO/SEO
+                aria-label="Download on Apple App Store"
                 className="transition-transform hover:scale-[1.05] active:scale-[0.98]"
               >
-                {/* Aumentando a altura da imagem de h-10 para h-14 (56px) */}
-                <img src="/assets/apple_store_badge.svg" alt="Baixar na Apple App Store" className="h-14" /> 
+                <img src="assets/apple_store_badge.svg" alt="Baixar na Apple App Store" className="h-14" /> 
               </a>
               <a 
                 href="[LINK_PLAY_STORE]" 
-                aria-label="Download on Google Play Store" // em inglês para ASO/SEO
+                aria-label="Download on Google Play Store" 
                 className="transition-transform hover:scale-[1.05] active:scale-[0.98]"
               >
-                {/* Aumentando a altura da imagem de h-10 para h-14 (56px) */}
-                <img src="/assets/google_play_badge.svg" alt="Baixar no Google Play" className="h-14" />
-              </a>
-            </div>
+                <img src="assets/google_play_badge.svg" alt="Baixar no Google Play" className="h-14" />
+              </a>            </div>
           </div>
       </section>
 

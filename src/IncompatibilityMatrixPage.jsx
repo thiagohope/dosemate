@@ -126,15 +126,17 @@ export default function IncompatibilityMatrixPage({ allDrugs = [] }) {
                                                 scope="col" 
                                                 className="px-3 py-3 text-xs font-semibold uppercase tracking-wider border-r border-b border-dashed border-gray-400 h-64 hover:bg-cyan-600 transition-colors"
                                             >
-                                                {/* PONTO 15: Aplica o Link se a droga for DoseMate */}
-                                                {isLinkable ? (
-                                                    // Assumindo a rota /drogas/[slug]
-                                                    <a href={`/drogas/${slug}`} className="hover:underline">
-                                                        {DrugNameElement}
-                                                    </a>
-                                                ) : (
-                                                    DrugNameElement
-                                                )}
+                                            {/* PONTO 15: Aplica o Link se a droga for DoseMate */}
+                                            {linkableSlugs.has(slug) ? (
+                                                // CORRIGIDO: Usando slug e sintaxe corrigida
+                                                <a href={`/med/${slug}`} className="hover:underline font-semibold">
+                                                    {drugNameMap[slug] || slug}
+                                                </a>
+                                            ) : (
+                                                <span className="font-semibold">
+                                                    {drugNameMap[slug] || slug}
+                                                </span>
+                                            )}
                                             </th>
                                         );
                                     })}
@@ -144,23 +146,22 @@ export default function IncompatibilityMatrixPage({ allDrugs = [] }) {
                                 {/* Linhas de Droga */}
                                 {sortedSlugs.map((rowSlug, rowIndex) => (
                                     <tr key={rowIndex}>
-                                        {/* Cabeçalho de Linha (Nome Horizontal) */}
+{/* Cabeçalho de Linha (Nome Horizontal) */}
                                         <th 
                                             scope="row" 
                                             className={`px-4 py-2 text-sm font-medium text-gray-900 border-r border-b border-dashed border-gray-400 ${INCOMPATIBILITY_COLORS.header} hover:bg-cyan-600 transition-colors whitespace-nowrap`}
                                         >
                                             {/* PONTO 15: Aplica o Link se a droga for DoseMate */}
                                             {linkableSlugs.has(rowSlug) ? (
-                                                <a href={`/drogas/${rowSlug}`} className="hover:underline font-bold">
+                                                <a href={`/med/${rowSlug}`} className="hover:underline font-semibold text-white">
                                                     {drugNameMap[rowSlug] || rowSlug}
                                                 </a>
                                             ) : (
-                                                <span className="font-semibold">
+                                                <span className="font-semibold text-white">
                                                     {drugNameMap[rowSlug] || rowSlug}
                                                 </span>
                                             )}
-                                        </th>
-                                        
+                                        </th>                                        
                                         {/* Células da Matriz */}
                                         {sortedSlugs.map((colSlug, colIndex) => {
                                             const status = matrixData.matrix[rowSlug]?.[colSlug] || matrixData.matrix[colSlug]?.[rowSlug] || 'X'; 

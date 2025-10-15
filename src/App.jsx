@@ -23,19 +23,22 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <Routes>
+    <Router basename="/dosemate/"> 
+      <Routes>
         {/* Rota principal (Home/Busca) */}
         <Route path="/" element={<DoseMateHome allDrugs={drugs} />} />
         
-        {/* Rota da Lista Completa de Drogas (Correção para o link /med) */}
-        <Route path="/med" element={<DoseMateHome allDrugs={drugs} isFullList={true} />} />
+        {/* Rota da Lista Completa de Drogas (Correção para o link /med) */}
+        <Route path="/med" element={<DoseMateHome allDrugs={drugs} isFullList={true} />} />
 
-        {/* Rota da Calculadora */}
-        <Route path="/calculator" element={<InfusionCalculator allDrugs={drugs} />} />
+        {/* Rota da Calculadora */}
+        <Route path="/calculator" element={<InfusionCalculator allDrugs={drugs} />} />
+        
+        {/* Rota para Detalhes da Droga (Usa o slug na URL, ex: /med/norepinephrine) */}
+        <Route path="/med/:slug" element={<DrugDetailPage allDrugs={drugs} />} />
         
-        {/* Rota para Detalhes da Droga (Usa o slug na URL, ex: /med/norepinephrine) */}
-        <Route path="/med/:slug" element={<DrugDetailPage allDrugs={drugs} />} />
+        {/*  /drugs/  */}
+        <Route path="/drugs/:slug" element={<DrugDetailPage allDrugs={drugs} />} />
         
         {/* Rota da Página "Sobre" (About) */}
         <Route path="/about" element={<AboutPage />} /> 

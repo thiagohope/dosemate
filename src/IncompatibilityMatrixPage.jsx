@@ -1,16 +1,13 @@
-// src/IncompatibilityMatrixPage.jsx
-// Displays a cross-reference table (matrix) of drug incompatibilities.
-
 import React, { useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Navbar from './Navbar'; 
 
-// Importa a Matriz de Dados Real (Assumindo que está em src/)
+// Importa a Matriz de Dados
 import matrixData from './incompatibilities.json'; 
 
-// Definições de Cores e Códigos para o frontend
+// Definições de Cores para a Matriz
 const INCOMPATIBILITY_COLORS = {
-    // Cores definidas conforme o esquema de segurança (Tailwind Classes)
     'P': 'bg-red-700 text-white',      // Precipitação
     'D': 'bg-purple-700 text-white',   // Degradação
     'AKI': 'bg-amber-500 text-gray-900',// Risco AKI
@@ -21,17 +18,7 @@ const INCOMPATIBILITY_COLORS = {
     'self': 'bg-gray-200'               // Célula "droga vs. ela mesma"
 };
 
-// Mapeia o código para a CHAVE de tradução correspondente (para o tooltip/legenda)
-const INCOMPATIBILITY_KEY_MAP = {
-    'P': 'P', 
-    'D': 'D', 
-    'AKI': 'AKI',
-    'CI': 'CI',
-    'C': 'C',
-    'X': 'X'
-};
-
-// Mapeamento manual para drogas que não estão no 'drug_database.json' (DoseMate)
+// Mapeamento manual para drogas que não estão no banco de dados principal do DoseMate
 const EXTERNAL_DRUG_NAMES = {
     'epinephrine': 'Epinephrine (Adrenaline)', 
     'albumin': 'Albumin',
@@ -47,8 +34,44 @@ const EXTERNAL_DRUG_NAMES = {
 
 export default function IncompatibilityMatrixPage({ allDrugs = [] }) {
     const { t } = useTranslation();
+    
+    // VARIÁVEL DE SEGURANÇA: Chave para armazenamento permanente no navegador
+    const PERMANENT_KEY = 'dosemate_master_license'; 
 
-    // 1. Mapeia o slug para o nome da droga (para exibição e ordenação)
+    // 1. LÓGICA DE LICENÇA (Acesso Premium)
+    const isPremium = useMemo(() => {
+        if (typeof window === 'undefined') return false; 
+        return localStorage.getItem(PERMANENT_KEY) === 'true';
+    }, []); 
+
+    // --- PAYWALL: BLOQUEIO TOTAL ---
+    if (!isPremium) {
+        return (
+            <div className="min-h-screen bg-gray-50 text-gray-800">
+                <Navbar />
+                <main className="max-w-3xl mx-auto py-12 px-4 sm:px-6 lg:px-8 text-center">
+                    <h1 className="text-3xl font-extrabold text-red-600 mb-4">{t('premium_matrix_title')}</h1>
+                    <p className="text-gray-700 mb-8">{t('premium_matrix_description')}</p>
+                    
+                    {/* Botão para simular a compra (pode ser o link para a loja) */}
+                    <a 
+                        href="[LINK_PLAY_STORE]" 
+                        className="inline-flex justify-center py-3 px-6 border border-transparent rounded-lg shadow-md text-lg font-medium text-white bg-cyan-600 hover:bg-cyan-700 transition duration-150"
+                        aria-label="Unlock Full Incompatibility Matrix"
+                    >
+                        {t('buy_premium_access')}
+                    </a>
+                    
+                    <div className="mt-8 text-sm text-gray-500">
+                        <p>{t('free_features_promo')}</p>
+                    </div>
+                </main>
+            </div>
+        );
+    }
+    // --- FIM PAYWALL ---
+
+    // 2. Mapeia o slug para o nome da droga (para exibição e ordenação)
     const drugNameMap = useMemo(() => {
         const map = { ...EXTERNAL_DRUG_NAMES };
         allDrugs.forEach(d => {
@@ -57,14 +80,13 @@ export default function IncompatibilityMatrixPage({ allDrugs = [] }) {
         return map;
     }, [allDrugs]);
     
-    // 2. Cria um conjunto (Set) de slugs que são linkáveis (existentes no drug_database.json)
+    // Cria um conjunto de slugs que são "clicáveis" (existem no DoseMate)
     const linkableSlugs = useMemo(() => {
         return new Set(allDrugs.map(d => d.slug));
     }, [allDrugs]);
 
-    // 3. Cria a lista de SLUGS de drogas para cabeçalhos e linhas (em ordem alfabética)
+    // Cria a lista de slugs para a tabela, em ordem alfabética pelo nome da droga
     const sortedSlugs = useMemo(() => {
-        // Ordena os slugs da Matriz de Dados alfabeticamente pelo nome amigável
         return matrixData.drug_keys.slice().sort((a, b) => {
             const nameA = drugNameMap[a] || a;
             const nameB = drugNameMap[b] || b;
@@ -72,7 +94,6 @@ export default function IncompatibilityMatrixPage({ allDrugs = [] }) {
         });
     }, [drugNameMap]); 
     
-
     if (sortedSlugs.length === 0) {
         return (
             <main className="container mx-auto p-4">
@@ -83,79 +104,67 @@ export default function IncompatibilityMatrixPage({ allDrugs = [] }) {
 
     return (
         <div className="min-h-screen bg-gray-50">
-<Navbar />
+            <Navbar />
             <main className="container mx-auto p-4 md:p-8">
-                {/* COMENTÁRIO SEO: Adiciona Schema.org/Dataset para indicar que este é um recurso de dados */}
                 <div className="bg-white p-6 rounded-xl shadow-lg" itemScope itemType="http://schema.org/Dataset">
                     <h1 
                         className="text-3xl font-bold text-cyan-800 mb-6"
-                        itemProp="name" // Nome do dataset
-                        // COMENTÁRIO SEO: Adicionando aria-label em inglês para bots/acessibilidade
+                        itemProp="name"
                         aria-label="Drug Incompatibility Matrix for IV Infusion"
                     >
                         {t('incompatibility_matrix_title')}
                     </h1>
                     <p 
                         className="text-gray-600 mb-6"
-                        itemProp="description" // Descrição do dataset
+                        itemProp="description"
                     >
                         {t('matrix_description')}
                     </p>
-                    <div className="overflow-x-auto">
-                        <table className="min-w-full divide-y divide-gray-200 border border-gray-300">
-                            <thead className={INCOMPATIBILITY_COLORS.header}>
+                    {/* Container de Scroll para a Tabela */}
+                    <div className="overflow-auto relative border border-gray-300 rounded-lg" style={{ maxHeight: '75vh' }}>
+                        <table className="min-w-full divide-y divide-gray-200">
+                            <thead className={`sticky top-0 z-20 ${INCOMPATIBILITY_COLORS.header}`}>
                                 <tr>
-                                    {/* Canto superior esquerdo */}
-                                    <th scope="col" className="px-3 py-3 text-xs font-semibold uppercase tracking-wider border-r border-b border-dashed border-gray-400"></th>
+                                    {/* Canto superior esquerdo - Fixo em ambas as direções */}
+                                    <th scope="col" className={`sticky left-0 top-0 z-30 px-3 py-3 border-r border-b border-dashed border-gray-400 ${INCOMPATIBILITY_COLORS.header}`}></th>
                                     
-                                    {/* Cabeçalhos de Coluna (Nomes Verticais) */}
-                                    {sortedSlugs.map((slug, index) => {
-                                        const drugName = drugNameMap[slug] || slug;
-                                        const isLinkable = linkableSlugs.has(slug); // Verifica se é DoseMate
-                                        
-                                        // Elemento com o nome da droga renderizado na vertical
-                                        const DrugNameElement = (
-                                            <span className="text-xs font-semibold whitespace-nowrap align-bottom [writing-mode:vertical-rl] transform rotate-180">
-                                                {drugName}
-                                            </span>
-                                        );
-                                        
-                                        return (
-                                            <th 
-                                                key={index} 
-                                                scope="col" 
-                                                className="px-3 py-3 text-xs font-semibold uppercase tracking-wider border-r border-b border-dashed border-gray-400 h-64 hover:bg-cyan-600 transition-colors"
-                                            >
-                                            {/* PONTO 15: Aplica o Link se a droga for DoseMate */}
-                                            {linkableSlugs.has(slug) ? (
-                                                // CORRIGIDO: Usando slug e sintaxe corrigida
-                                                <a href={`/med/${slug}`} className="hover:underline font-semibold">
-                                                    {drugNameMap[slug] || slug}
-                                                </a>
-                                            ) : (
-                                                <span className="font-semibold">
-                                                    {drugNameMap[slug] || slug}
+                                    {/* Cabeçalhos de Coluna (Verticais) */}
+                                    {sortedSlugs.map((slug, index) => (
+                                        <th 
+                                            key={index} 
+                                            scope="col" 
+                                            className="px-2 py-3 border-r border-b border-dashed border-gray-400 hover:bg-cyan-600 transition-colors align-bottom"
+                                        >
+                                            <div className="h-48 flex items-end justify-center">
+                                                <span className="[writing-mode:vertical-rl] transform rotate-180 whitespace-nowrap">
+                                                    {linkableSlugs.has(slug) ? (
+                                                        <Link to={`/med/${slug}`} className="hover:underline font-semibold text-xs uppercase tracking-wider">
+                                                            {drugNameMap[slug] || slug}
+                                                        </Link>
+                                                    ) : (
+                                                        <span className="font-semibold text-xs uppercase tracking-wider">
+                                                            {drugNameMap[slug] || slug}
+                                                        </span>
+                                                    )}
                                                 </span>
-                                            )}
-                                            </th>
-                                        );
-                                    })}
+                                            </div>
+                                        </th>
+                                    ))}
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
                                 {/* Linhas de Droga */}
                                 {sortedSlugs.map((rowSlug, rowIndex) => (
                                     <tr key={rowIndex}>
-{/* Cabeçalho de Linha (Nome Horizontal) */}
+                                        {/* Cabeçalho de Linha (Fixo na Esquerda) */}
                                         <th 
                                             scope="row" 
-                                            className={`px-4 py-2 text-sm font-medium text-gray-900 border-r border-b border-dashed border-gray-400 ${INCOMPATIBILITY_COLORS.header} hover:bg-cyan-600 transition-colors whitespace-nowrap`}
+                                            className={`sticky left-0 px-4 py-2 text-sm font-medium text-gray-900 border-r border-b border-dashed border-gray-400 ${INCOMPATIBILITY_COLORS.header} hover:bg-cyan-600 transition-colors whitespace-nowrap z-10`}
                                         >
-                                            {/* PONTO 15: Aplica o Link se a droga for DoseMate */}
                                             {linkableSlugs.has(rowSlug) ? (
-                                                <a href={`/med/${rowSlug}`} className="hover:underline font-semibold text-white">
+                                                <Link to={`/med/${rowSlug}`} className="hover:underline font-semibold text-white">
                                                     {drugNameMap[rowSlug] || rowSlug}
-                                                </a>
+                                                </Link>
                                             ) : (
                                                 <span className="font-semibold text-white">
                                                     {drugNameMap[rowSlug] || rowSlug}
@@ -166,7 +175,6 @@ export default function IncompatibilityMatrixPage({ allDrugs = [] }) {
                                         {sortedSlugs.map((colSlug, colIndex) => {
                                             const status = matrixData.matrix[rowSlug]?.[colSlug] || matrixData.matrix[colSlug]?.[rowSlug] || 'X'; 
                                             const statusClass = INCOMPATIBILITY_COLORS[status] || INCOMPATIBILITY_COLORS.X;
-                                            
                                             const tooltipDescription = matrixData.key_definitions[status] || t('X'); 
                                             
                                             if (rowSlug === colSlug) {
@@ -189,17 +197,14 @@ export default function IncompatibilityMatrixPage({ allDrugs = [] }) {
                         </table>
                     </div>
                     
-                    {/* Legenda (Baseada em key_definitions) */}
+                    {/* Legenda */}
                     <div className="mt-8 pt-4 border-t border-gray-200">
                         <h3 className="text-xl font-semibold mb-3">{t('matrix_legend_title')}</h3>
                         <div className="flex flex-wrap gap-x-6 gap-y-2">
-                            {/* Renderiza o código e a descrição completa */}
                             {Object.entries(matrixData.key_definitions).map(([key, description]) => (
                                 <div key={key} className="flex items-center space-x-2" title={description}>
-                                    {/* Exibição da cor na legenda */}
                                     <span className={`inline-block w-4 h-4 rounded-full ${INCOMPATIBILITY_COLORS[key] || INCOMPATIBILITY_COLORS.X}`}></span>
                                     <span className="text-sm text-gray-700 font-medium">
-                                        {/* Exibe o código seguido da descrição completa */}
                                         {key}: {description}
                                     </span>
                                 </div>
@@ -207,7 +212,7 @@ export default function IncompatibilityMatrixPage({ allDrugs = [] }) {
                         </div>
                     </div>
                     
-                    {/* AVISO LEGAL E SEGURANÇA */}
+                    {/* Aviso Legal */}
                     <div className="mt-8 text-xs text-red-700 leading-relaxed p-3 bg-red-100 rounded-lg border border-red-300">
                         <p className="font-semibold">{t('safety_warning_title')}</p>
                         <p className="mt-1">{t('matrix_safety_disclaimer')}</p>
@@ -217,3 +222,4 @@ export default function IncompatibilityMatrixPage({ allDrugs = [] }) {
         </div>
     );
 }
+

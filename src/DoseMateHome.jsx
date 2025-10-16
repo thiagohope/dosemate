@@ -1,209 +1,390 @@
-import { Link } from 'react-router-dom';
-import React, { useMemo, useState } from "react";
-import { useTranslation } from 'react-i18next';
-import LanguageSelector from './LanguageSelector';
-import icon from './assets/icon.png';
-import Navbar from './Navbar';
+// src/DrugDetailPage.jsx
+// Drug detail page component.
 
-const brand = {
-  primary: "#31B4D3",
-  primaryDark: "#1D90AB",
-  bg: "#F9FBFC",
-  card: "#FFFFFF",
-  line: "#E6F4F8",
-  text: "#0F172A",
-  subtle: "#6B7280",
+import React, { useMemo, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import Navbar from './Navbar'; 
+
+// Function to format numbers, ensuring it's self-contained and handles i18n logic.
+const formatNumber = (n, i18n, digits = 2) => {
+  if (n === null || n === undefined || isNaN(n) || n === '') return "";
+  const num = typeof n === 'string' ? parseFloat(n.replace(',', '.')) : Number(n);
+  const fixed = num.toFixed(digits);
+  
+  if (i18n?.language === 'en') {
+    return fixed; 
+  } else {
+    let localized = fixed.replace('.', ',');
+    // Keeps 0 for volume and 2-3 for precision, but uses comma
+    return localized.replace(/,00$/, "").replace(/(\,\d)0$/, "$1"); 
+  }
 };
 
-function ChevronRight({ size = 20 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
+// Normaliza símbolo de micrograma para "mcg"
+const normalizeMicro = (val) => {
+  if (val == null) return val;
+  const s = String(val);
+  // Substitui "µg" (U+00B5) e "μg" (U+03BC) por "mcg"
+  return s.replace(/(µ|μ)\s*g/gi, 'mcg');
+};
+
+// Map colors to clinical drug categories for subtle visual cues.
+const CATEGORY_COLORS = {
+  vasoactive: { bg: 'bg-rose-50', text: 'text-rose-800', border: 'border-rose-300' },
+  snc:       { bg: 'bg-green-50', text: 'text-green-800', border: 'border-green-300' },
+  cardio:    { bg: 'bg-blue-50', text: 'text-blue-800', border: 'border-blue-300' },
+  electrolytes: { bg: 'bg-cyan-50', text: 'text-cyan-800', border: 'border-cyan-300' },
+  antibiotic: { bg: 'bg-amber-50', text: 'text-amber-800', border: 'border-amber-300' },
+  other:     { bg: 'bg-gray-100', text: 'text-gray-800', border: 'border-gray-200' },
+  default:   { bg: 'bg-white', text: 'text-gray-800', border: 'border-gray-200' },
+};
+
+export default function DrugDetailPage({ allDrugs = [] }) {
+  // -----------------------------------------------------------------------------------
+  // HOOKS E LÓGICA DE ESTADO (CHAMADAS INCONDICIONAIS NO TOPO)
+  // -----------------------------------------------------------------------------------
+  const { t, i18n } = useTranslation();
+  const { slug } = useParams();
+
+  // Variáveis de Licença
+  const PERMANENT_KEY = 'dosemate_master_license'; 
+  const FREE_DRUGS_SLUGS = ['norepinephrine', 'midazolam', 'dopamine']; 
+
+  // HOOK 1: isPremium (Verifica Licença Permanente OU Trial Ativo)
+  const isPremium = useMemo(() => {
+      if (typeof window === 'undefined') return false; 
+      
+      const trialStart = localStorage.getItem('dosemate_trial_start');
+      const TRIAL_DAYS = 7;
+      const now = new Date().getTime();
+      const expirationDate = new Date(trialStart).getTime() + TRIAL_DAYS * 24 * 60 * 60 * 1000;
+      
+      // Verifica Licença Permanente OU Trial Ativo
+      return localStorage.getItem(PERMANENT_KEY) === 'true' || (trialStart && now < expirationDate);
+  }, []);
+  
+  // HOOK 2: drug (Filtra a droga correspondente)
+  const drug = useMemo(
+    () => allDrugs.find((d) => d.slug === slug),
+    [slug, allDrugs]
   );
-}
 
-function PillButton({ children, href, variant = "primary" }) {
-  const styles = variant === "primary"
-    ? { background: brand.primary, color: "#fff", border: `1px solid ${brand.primary}` }
-    : { background: "#fff", color: brand.primary, border: `1px solid ${brand.primary}` };
-  return (
-    <Link to={to} className="inline-flex items-center justify-center px-4 py-3 rounded-2xl font-semibold" style={styles}>
-      {children}
-    </Link>
-  );
-}
+  // Variáveis Normais
+  const drugStyle = CATEGORY_COLORS[drug?.category?.toLowerCase()] || CATEGORY_COLORS.default;
+  const isLocked = !isPremium && drug && !FREE_DRUGS_SLUGS.includes(drug.slug);
+  
+  // EFEITO PARA INICIAR O TRIAL (Fallback caso o Home não tenha sido visitado)
+  useEffect(() => {
+    const trialStart = localStorage.getItem('dosemate_trial_start');
+    const hasPermanentLicense = localStorage.getItem(PERMANENT_KEY) === 'true';
 
-export default function DoseMateHome({ allDrugs = [], isFullList = false }) {
-  const { t } = useTranslation();
-  const [query, setQuery] = useState("");
+    if (!trialStart && !hasPermanentLicense) {
+        localStorage.setItem('dosemate_trial_start', new Date().toISOString());
+        // Não precisamos de um reload aqui, pois o retorno condicional irá disparar
+    }
+  }, []);
 
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
 
-    // Se for a rota /med (isFullList=true) e não houver pesquisa (q), ele exibe todas as drogas.
-    const listToFilter = allDrugs; 
-    
-    // 1. Filtrar
-    const filteredDrugs = allDrugs.filter(d => d.drug && d.drug.toLowerCase().includes(q));
+  // -----------------------------------------------------------------------------------
+  // RETORNOS CONDICIONAIS (PAYWALLS E ERROS) - APÓS TODOS OS HOOKS
+  // -----------------------------------------------------------------------------------
 
-    // 2. Ordenar alfabeticamente pelo nome da droga ('drug')
-    return filteredDrugs.sort((a, b) => {
-      if (a.drug < b.drug) return -1;
-      if (a.drug > b.drug) return 1;
-      return 0;
-    });
+  // Verifica se a droga existe
+  if (!drug) {
+    return (
+      <div className="min-h-screen bg-gray-50 text-gray-800">
+        <Navbar />
+        <main className="max-w-3xl mx-auto py-12 px-4 text-center">
+          <h1 className="text-3xl font-bold text-red-600">{t('drug_not_found')}</h1>
+          <p className="mt-4 text-gray-600">{t('drug_not_found_message', { slug })}</p>
+          <Link to="/" className="mt-6 inline-block text-cyan-600 hover:underline">
+            {t('back_to_home')}
+          </Link>
+        </main>
+      </div>
+    );
+  }
 
-  }, [query, allDrugs, isFullList]);
+  // --- PAYWALL: BLOQUEIO TOTAL (Se não for Premium E não for uma das 3 FREE) ---
+  if (isLocked) {
+    return (
+      <div className="min-h-screen bg-gray-50 text-gray-800">
+        <Navbar />
+        <main className="max-w-3xl mx-auto py-12 px-4 sm:px-6 lg:px-8 text-center">
+          
+          <h1 className="text-4xl font-extrabold text-cyan-700 mb-8">{drug.drug}</h1>
 
-  return (
-    <div className="min-h-screen" style={{ background: brand.bg, color: brand.text }}>
-     <Navbar />
-
-      {/* Hero / Primary CTA e Metadados SEO */}
-      <section 
-        className="max-w-3xl mx-auto px-4 py-6"
-        // COMENTÁRIO SEO: Schema.org principal para a Home, identificando o site como a landing page do App
-        itemScope itemType="http://schema.org/SoftwareApplication" 
-        >
-        <div className="rounded-3xl p-5 md:p-6 shadow-sm border" style={{ background: brand.card, borderColor: brand.line }}>
-          <div className="flex items-center justify-between gap-4">
-            <div>
-              {/* H1 com palavras-chave de ASO e nome do produto */}
-              <h1 
-                className="text-2xl md:text-3xl font-bold mb-1" 
-                style={{ color: brand.primaryDark }}
-                itemProp="name" // Nome do Aplicativo
-                aria-label="DoseMate Continuous Infusion Calculator"
-              >
-                {t('home_title')}
-              </h1>
-              {/* Descrição curta para SEO/ASO */}
-              <p 
-                className="text-sm md:text-base" 
-                style={{ color: brand.subtle }}
-                itemProp="description"
-              >
-                {t('home_subtitle')}
-              </p>
-            </div>
-          </div>
-
-          {/* Ícones de loja lado a lado, sem texto traduzido (pois o ícone já é a CTA) */}
-            <div className="flex flex-row items-center justify-center gap-3"> 
+          {/* O Paywall */}
+          <div className="p-8 bg-white shadow-xl rounded-lg border-2 border-red-500">
+              <h2 className="text-3xl font-extrabold text-red-600 mb-4">{t('drug_details_locked_title')}</h2>
+              <p className="text-gray-700 mb-8">{t('drug_details_locked_description')}</p>
+              
               <a 
-                href="[LINK_PLAY_STORE]" 
-                aria-label="Download on Google Play Store" 
-                className="transition-transform hover:scale-[1.05] active:scale-[0.98]"
+                  href="[LINK_PLAY_STORE]" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex justify-center py-3 px-6 border border-transparent rounded-lg shadow-md text-lg font-medium text-white bg-cyan-600 hover:bg-cyan-700 transition duration-150"
+                  aria-label="Unlock Full Drug Details"
               >
-                <img src="assets/google_play_badge.svg" alt="Baixar no Google Play" className="h-14" />
-              </a>     
-           </div>
-        </div>
-      </section>
-
-      {/* Bloco de Publicidade / Cross-Promotion BrainboxMed - Inserido entre Calculator e Database */}
-      <section className="max-w-3xl mx-auto px-4 py-4"> 
-        <a 
-          href="[www.brainboxmed.com]"
-          className="block w-full rounded-3xl p-5 shadow-lg transition-transform hover:scale-[1.02] active:scale-[0.98] border border-transparent" 
-          style={{ background: '#5e3e94', color: '#fff' }} // Cor principal do Brainbox
-          aria-label="Access BrainboxMed Question Bank" // em inglês para ASO/SEO
-        >
-          <div className="flex flex-col items-center justify-center">
-            <p className="text-sm font-semibold mb-1 opacity-80">{t('ad_brainbox_promo')}</p>
-            <h3 className="text-2xl font-extrabold tracking-tight">
-              Brainbox<span style={{ color: '#f39c12' }}>Med</span> 
-              <sup className="text-sm font-semibold ml-1">™</sup>
-            </h3>
-            <p className="mt-2 text-sm font-medium">{t('ad_brainbox_cta')}</p>
-          </div>
-        </a>
-      </section>
-
-      {/* Database / Quick search */}
-      <section className="max-w-3xl mx-auto px-4 pb-4">
-        <div className="rounded-3xl p-5 shadow-sm border" style={{ background: brand.card, borderColor: brand.line }}>
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-lg md:text-xl font-semibold">{t('drug_database_title')}</h2>
-            <Link to="/med" className="text-sm font-semibold" style={{ color: brand.primary }}>{t('view_all_link')}</Link>
-          </div>
-          <div className="mb-4">
-            <input
-              type="search"
-              placeholder={t('search_placeholder')}
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className="w-full px-4 py-3 rounded-2xl border outline-none"
-              style={{ borderColor: brand.line, background: brand.bg }}
-            />
+                  {t('buy_premium_access')}
+              </a>
+              
+              <div className="mt-6 text-sm text-gray-500">
+                  <p>{t('free_drugs_available_promo', { count: FREE_DRUGS_SLUGS.length })}</p>
+              </div>
           </div>
 
-          <ul className="divide-y" style={{ borderColor: brand.line }}>
-            {filtered.map((d) => (
-              <li key={d.slug}>
-                <Link to={d.detail_path || `/med/${d.slug}`} className="flex items-center justify-between py-3">
-                  <div className="min-w-0">
-                    <div className="font-semibold truncate">{d.drug}</div>
-                    <div className="text-xs text-gray-500 truncate">{t('drug_list_concentration_details')}</div>
-                  </div>
-                  <div className="text-gray-400"><ChevronRight /></div>
+          {/* Link para a calculadora gratuita */}
+          <div className="pt-4 border-t mt-12 flex flex-col space-y-3">
+              <Link 
+                  to={`/calculator?drug=${drug.slug}`} 
+                  className="w-full inline-flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-lg font-medium text-white bg-cyan-600 hover:bg-cyan-700 transition duration-150"
+              >
+                  {t('open_calculator_for_this_drug')}
+              </Link>
+          </div>
+
+        </main>
+      </div>
+    );
+  }
+  // --- FIM PAYWALL ---
+  
+  // O RETORNO PRINCIPAL (VERSÃO COMPLETA E GRATUITA) CONTINUA AQUI
+  return (
+    <div className="min-h-screen bg-gray-50 text-gray-800">
+      <Navbar />
+      
+      <main className="max-w-3xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        
+      {/* Navegação Rápida Entre Drogas */}
+        <div className="mb-8"> 
+            <div className="flex flex-nowrap overflow-x-auto gap-2 p-3 bg-gray-100 rounded-lg border border-gray-200 hide-scrollbar">
+                {allDrugs
+                    .slice() // Cria uma cópia para não modificar o array original
+                    .sort((a, b) => a.drug.localeCompare(b.drug)) // Ordena alfabeticamente
+                    .map((d) => (
+                  <Link
+                    key={d.slug}
+                    to={`/med/${d.slug}`}
+                    className={`flex-shrink-0 text-sm font-medium px-3 py-1 rounded-full whitespace-nowrap transition duration-150 ${
+                    d.slug === slug 
+                        ? 'bg-cyan-600 text-white shadow-md' 
+                        : 'bg-white text-gray-700 hover:bg-gray-200 border border-gray-300' 
+                    }`}
+                >
+                    {d.drug}
                 </Link>
-              </li>
-            ))}
-          </ul>        
+                ))}
+            </div>
         </div>
-      </section>
-
-      {/* Quick links - Otimizados para Schema/ASO */}
-      <section className="max-w-3xl mx-auto px-4 pb-20">
-        <div className="grid grid-cols-2 gap-3">
-          <Link 
-            to="/calculator" 
-            className="rounded-3xl p-4 text-center font-semibold" 
-            style={{ background: brand.card, border: `1px solid ${brand.line}` }}
-            itemProp="feature" 
-            aria-label="Infusion Rate Calculator" // em inglês
+        
+        {/* Container Principal da Droga */}
+        <div 
+          className={`shadow-xl rounded-lg overflow-hidden border ${drugStyle.bg} p-6`}
+          itemScope itemType="http://schema.org/MedicalGuideline"
+        >
+          
+          {/* Main Title */}
+          <h1 
+            className={`text-4xl font-extrabold ${drugStyle.text} mb-2`}
+            aria-label={`Drug information and infusion guide for ${drug.drug}`}
+            itemProp="name"
           >
-            {t('nav_calculator')}
-          </Link>
-          <Link 
-            to="/med" 
-            className="rounded-3xl p-4 text-center font-semibold" 
-            style={{ background: brand.card, border: `1px solid ${brand.line}` }}
-            itemProp="feature" 
-            aria-label="Drug Database" // em inglês
-          >
-            {t('nav_drug_database')}
-          </Link>
-        </div>
-      </section>
+            {drug.drug}
+          </h1>
+          <p className="text-sm text-gray-500 mb-6 border-b pb-4">
+            {t('drug_detail_generic_name', { name: drug.generic_name || 'N/A' })}
+          </p>
 
-      {/* Bottom Tab (app-like) - Refatorado para Tailwind puro */}
-      <nav className="fixed bottom-0 left-0 right-0 border-t border-gray-200 bg-white">
-        <div className="max-w-3xl mx-auto grid grid-cols-4 text-sm text-gray-500">
+          {/* Concentrations Section */}
+          <h2 
+            className="text-2xl font-bold text-gray-800 mb-4 border-b pb-2"
+            itemProp="summary"
+          >
+            {t('drug_detail_concentrations')}
+          </h2>
           
-          {/* 1. CALCULADORA */}
-          <Link to="/calculator" className="flex flex-col items-center py-2 text-cyan-600 font-semibold hover:text-cyan-600 transition-colors">
-            <span>{t('nav_calc_short')}</span>
-          </Link>
+          <div className="space-y-4">
+
+            {/* Lists standard concentrations from JSON */}
+            {drug.concentrations && drug.concentrations.map((conc, index) => {
+              // Lida com nomes de propriedades inconsistentes para unidades por mL
+              const unitsPerMl = conc.U_per_ml || conc.U_per_mL;
+
+              return (
+                <div key={index} className={`bg-white border ${drugStyle.border} rounded-lg p-4 flex justify-between items-center`}>
+                  <div>
+                    <p className="font-semibold text-lg text-cyan-800">
+                      {conc.label || 
+                          `${formatNumber(conc.drug_amount, i18n, 3)} ${normalizeMicro(conc.drug_unit)} in ${formatNumber(conc.total_volume, i18n, 0)} mL`
+                      }
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      {t('drug_detail_diluent')}: {t(conc.diluent) || t('diluent_default')}
+                    </p>
+
+                    {/* Determina a concentração por volume a ser exibida (mEq/mL, U/mL ou mcg/mL) */}
+                    {conc.mEq_per_ml > 0 ? (
+                      <p className="text-xs text-gray-500 mt-1">
+                        ({t('drug_detail_mEq_per_ml')}: {formatNumber(conc.mEq_per_ml, i18n, 2)} mEq/mL)
+                      </p>
+                    ) : unitsPerMl > 0 ? (
+                      <p className="text-xs text-gray-500 mt-1">
+                        ({t('drug_detail_units_per_ml')}: {formatNumber(unitsPerMl, i18n, 0)} U/mL)
+                      </p>
+                    ) : conc.mcg_per_ml > 0 && (
+                      /* Exibe mcg/mL APENAS se o valor for > 0 */
+                      <p className="text-xs text-gray-500 mt-1">
+                        ({t('drug_detail_ug_per_ml')}: {formatNumber(conc.mcg_per_ml, i18n, 0)} mcg/mL)
+                      </p>
+                    )}
+                  </div>
+                  {conc.is_default && (
+                    <span className="text-xs font-medium bg-cyan-600 text-white px-3 py-1 rounded-full">
+                      {t('default_label')}
+                    </span>
+                  )}
+                </div>
+              );
+            })}
+            {!drug.concentrations && (
+              <p className="text-gray-500">{t('no_concentrations_available')}</p>
+            )}
+          </div>
+       
+          {/* Dosing and Information Section */}
+          <h2 
+            className="text-2xl font-bold text-gray-800 mb-4 mt-8 border-b pb-2"
+            itemProp="purpose"
+          >
+            {t('drug_detail_dosing_info')}
+          </h2>
+
+          <div className="space-y-4 text-gray-700 leading-relaxed"> 
+            
+            {/* 1. FAIXA DE DOSE (DOSE RANGE) - DESTAQUE */}
+            <h3 className="text-lg font-bold text-gray-800" itemProp="dosage">
+                {t('drug_detail_dose_range')}
+            </h3>
+            <div className="p-3 bg-cyan-50 rounded-lg border border-cyan-300 shadow-sm">
+                <p className="font-normal text-cyan-800">
+                    <span className="sr-only">{t('drug_detail_dose_range')}: </span>
+                    {t(drug.dose_range) || t('info_not_specified')}
+                </p>
+            </div>
+            
+            {/* 2. Compatibilidade com Diluentes */}
+            <h3 className="text-lg font-bold text-gray-800" itemProp="diluentCompatibility">
+              {t('drug_detail_diluent_compatibility')}
+            </h3>
+            <p>
+              {t(drug.diluent_compatibility) || t('info_not_specified')}
+            </p>
+            
+            {/* 3. Compatibilidade no Sítio de Infusão */}
+            <h3 className="text-lg font-bold text-gray-800">
+              {t('drug_detail_site_compatibility')}
+            </h3>
+            <p>
+              {t(drug.site_compatibility) || t('info_not_specified')}
+            </p>
+            
+            {/* 4. Estabilidade da Solução */}
+            <h3 className="text-lg font-bold text-gray-800" itemProp="stability">
+              {t('drug_detail_stability')}
+            </h3>
+            <p>
+              {t(drug.stability) || t('info_not_specified')}
+            </p>
+            
+            {/* 5. Monitoramento */}
+            <h3 className="text-lg font-bold text-gray-800" itemProp="monitoring">
+              {t('drug_detail_monitoring')}
+            </h3>
+            <p>
+              {t(drug.monitoring) || t('info_not_specified')}
+            </p>
+            
+            {/* 6. Segurança de Uso/Observações Importantes */}
+            <h3 className="text-lg font-bold text-gray-800">
+              {t('drug_detail_safety_notes')}
+            </h3>
+            <p>
+              {t(drug.safety_notes) || t('info_not_specified')}
+            </p>
+            
+            
+            {/* Safety Warning (Geral) */}
+            <div className="mt-6 text-xs text-red-700 leading-relaxed p-3 bg-red-100 rounded-lg border border-red-300">
+                <p className="font-semibold">{t('safety_warning_title')}</p>
+                <p className="mt-1">{t('safety_warning_message')}</p>
+            </div>
+
+            {/* 7. INCOMPATIBILIDADES NO SÍTIO Y (TABELA + RÓTULO) */}
+            {drug.incompatibilities && drug.incompatibilities.length > 0 && (
+                <div className="space-y-4 pt-4 border-t">
+                    <p className="font-semibold text-red-700">
+                       {t('drug_detail_y_site_incompatibilities')}:
+                    </p>
+                    <div className="border border-gray-200 rounded-lg shadow-md overflow-x-auto">
+                        <table className="min-w-full divide-y divide-gray-200">
+                            <thead className="bg-gray-50">
+                                <tr>
+                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        {t('table_header_medication')}
+                                    </th>
+                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        {t('table_header_type')}
+                                    </th>
+                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        {t('table_header_observations')}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody className="bg-white divide-y divide-gray-200">
+                                {drug.incompatibilities.map((item, index) => (
+                                    <tr key={index} className="hover:bg-red-50">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                            {t(item.medication_key)}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            {t(item.type_key)}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-normal text-sm text-gray-700">
+                                            {t(item.observation_key)}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            )}
+
+
+            {/* Link para a Matriz de Incompatibilidade Cruzada */}
+            <div className="pt-4 border-t mt-6 flex flex-col space-y-3">
+                <Link 
+                    to="/matrix" 
+                    className="w-full inline-flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 transition duration-150"
+                >
+                    {t('matrix_page_link')}
+                </Link>
+                {/* Button to Calculator */}
+                <Link 
+                    to={`/calculator?drug=${drug.slug}`} 
+                    className="w-full inline-flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-lg font-medium text-white bg-cyan-600 hover:bg-cyan-700 transition duration-150"
+                >
+                    {t('open_calculator_for_this_drug')}
+                </Link>
+            </div>
+
+          </div>
           
-          {/* 2. DROGAS */}
-          <Link to="/med" className="flex flex-col items-center py-2 hover:text-cyan-600 transition-colors">
-            <span>{t('nav_drugs')}</span>
-          </Link>
-          
-          {/* 3. MATRIZ */}
-          <Link to="/matrix" className="flex flex-col items-center py-2 hover:text-cyan-600 transition-colors">
-            <span>{t('nav_matrix')}</span>
-          </Link>
-          
-          {/* 4. CONFIGURAÇÕES */}
-          <Link to="/settings" className="flex flex-col items-center py-2 hover:text-cyan-600 transition-colors">
-            <span>{t('nav_settings')}</span>
-          </Link>
         </div>
-      </nav>    
+      </main>
     </div>
   );
 }

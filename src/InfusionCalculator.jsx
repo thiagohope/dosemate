@@ -282,42 +282,59 @@ export default function InfusionCalculator({ allDrugs = [] }) {
   const doseFromMlH = useMemo(() => {
     if (isDrugCalculationLocked) return "🔒";
 
-    const val = parseNumericState(mlPerH);
+    const val = parseNumericState(mlPerH); // ml/h
     const w = parseNumericState(weight);
-    const conc = baseConcentrationPerMl.value;
+    const conc = baseConcentrationPerMl.value; // unidade base/mL (ex: mcg/mL)
     const isMassUnit = !doseUnit.includes("U/") && !doseUnit.includes("mEq/");
+    const isDoseByWeight = doseUnit.includes("/kg");
 
-    if (isNaN(val) || isNaN(w) || isNaN(conc) || w === 0 || conc === 0) return "";
-
-    if (isNaN(val) || isNaN(w) || isNaN(conc) || w === 0 || conc === 0) return "";
+    // --- Lógica de Validação Melhorada ---
+    // Apenas exige peso (w > 0) se a unidade for por peso.
+    if (isNaN(val) || isNaN(conc) || conc === 0) return "";
+    if (isDoseByWeight && (isNaN(w) || w === 0)) return "";
 
     if (isMassUnit) {
-        const baseMcgPerKgPerMin = (val * conc) / (w * 60);
+      const totalMcgPerHour = val * conc;
+
+      if (isDoseByWeight) {
+        // Lógica para doses por peso (mcg/kg/min, mg/kg/h, etc.)
+        const baseMcgPerKgPerMin = totalMcgPerHour / (w * 60);
         let out = baseMcgPerKgPerMin;
-        
         switch (doseUnit) {
           case "mcg/kg/h": out = baseMcgPerKgPerMin * 60; break;
           case "mg/kg/min": out = baseMcgPerKgPerMin / 1000; break;
           case "mg/kg/h": out = (baseMcgPerKgPerMin * 60) / 1000; break;
-          case "mcg/min": out = baseMcgPerKgPerMin * w; break;
-          case "mg/min": out = (baseMcgPerKgPerMin * w) / 1000; break;
-          default: out = baseMcgPerKgPerMin;
+          default: out = baseMcgPerKgPerMin; // mcg/kg/min
         }
         return formatNumberForDisplay(out, 2);
-        
-    } else {
-        let doseBasePerHour = val * conc; 
-        let out = doseBasePerHour;
-        
-        if (doseUnit.includes("/kg")) {
-            out = out / w;
-        }
-        if (doseUnit.includes("/min")) {
-            out = out / 60;
+
+      } else {
+        // Lógica para doses NÃO por peso (mcg/min, mg/min)
+        let out;
+        switch (doseUnit) {
+          case "mg/min": out = (totalMcgPerHour / 60) / 1000; break;
+          case "mcg/min": out = totalMcgPerHour / 60; break;
+          // Adicionamos mg/h que não estava na lista mas é uma unidade válida
+          case "mg/h": out = totalMcgPerHour / 1000; break;
+          default: out = totalMcgPerHour / 60; // Assume mcg/min
         }
         return formatNumberForDisplay(out, 2);
+      }
+
+    } else { // Para U ou mEq
+      const totalUnitsPerHour = val * conc;
+      let out = totalUnitsPerHour;
+
+      if (isDoseByWeight) {
+        out = out / w;
+      }
+
+      if (doseUnit.includes("/min")) {
+        out = out / 60;
+      }
+      return formatNumberForDisplay(out, 2);
     }
-  }, [mlPerH, weight, baseConcentrationPerMl, doseUnit]);
+  }, [mlPerH, weight, baseConcentrationPerMl, doseUnit, isDrugCalculationLocked, isPremium]);
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800">

@@ -34,44 +34,8 @@ const EXTERNAL_DRUG_NAMES = {
 
 export default function IncompatibilityMatrixPage({ allDrugs = [] }) {
     const { t } = useTranslation();
-    
-    // VARIÁVEL DE SEGURANÇA: Chave para armazenamento permanente no navegador
-    const PERMANENT_KEY = 'dosemate_master_license'; 
 
-    // 1. LÓGICA DE LICENÇA (Acesso Premium)
-    const isPremium = useMemo(() => {
-        if (typeof window === 'undefined') return false; 
-        return localStorage.getItem(PERMANENT_KEY) === 'true';
-    }, []); 
-
-    // --- PAYWALL: BLOQUEIO TOTAL ---
-    if (!isPremium) {
-        return (
-            <div className="min-h-screen bg-gray-50 text-gray-800">
-                <Navbar />
-                <main className="max-w-3xl mx-auto py-12 px-4 sm:px-6 lg:px-8 text-center">
-                    <h1 className="text-3xl font-extrabold text-red-600 mb-4">{t('premium_matrix_title')}</h1>
-                    <p className="text-gray-700 mb-8">{t('premium_matrix_description')}</p>
-                    
-                    {/* Botão para simular a compra (pode ser o link para a loja) */}
-                    <a 
-                        href="[LINK_PLAY_STORE]" 
-                        className="inline-flex justify-center py-3 px-6 border border-transparent rounded-lg shadow-md text-lg font-medium text-white bg-cyan-600 hover:bg-cyan-700 transition duration-150"
-                        aria-label="Unlock Full Incompatibility Matrix"
-                    >
-                        {t('buy_premium_access')}
-                    </a>
-                    
-                    <div className="mt-8 text-sm text-gray-500">
-                        <p>{t('free_features_promo')}</p>
-                    </div>
-                </main>
-            </div>
-        );
-    }
-    // --- FIM PAYWALL ---
-
-    // 2. Mapeia o slug para o nome da droga (para exibição e ordenação)
+    // Mapeia o slug para o nome da droga (para exibição e ordenação)
     const drugNameMap = useMemo(() => {
         const map = { ...EXTERNAL_DRUG_NAMES };
         allDrugs.forEach(d => {

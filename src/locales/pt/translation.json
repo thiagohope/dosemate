@@ -51,7 +51,10 @@
   "inverse_calc_title": "Cálculo Inverso • mL/h para Dose",
   "ml_per_h_label": "mL/h",
   "resulting_dose_label": "Dose Resultante ≈",
-
+    "trial_days_left": "Período de avaliação: {{count}} dia restante",
+  "trial_days_left_plural": "Período de avaliação: {{count}} dias restantes",
+  "trial_last_day": "Último dia do período de avaliação",
+  
   "DRUG_PAGE_UI_SECTION_START": "--- PÁGINA DA DROGA (UI Keys) ---",
   "drug_page_link": "Página da Droga",
   "drug_list_concentration_details": "Ver detalhes das concentrações",

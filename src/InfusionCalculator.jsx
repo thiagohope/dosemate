@@ -119,11 +119,10 @@ export default function InfusionCalculator({ allDrugs = [] }) {
   }, [isTrialActive]);
   
   const DOSE_UNITS = [ 
-    "mcg/kg/min", "mcg/kg/h", "mg/kg/min", "mg/kg/h", "mcg/min", "mg/min",
+    "mcg/kg/min", "mcg/kg/h", "mg/kg/min", "mg/kg/h", "mcg/min", "mg/min", "mcg/h", "mg/h",
     "U/kg/min", "U/kg/h", "U/min", "U/h",
     "mEq/kg/min", "mEq/kg/h", "mEq/min", "mEq/h"
   ];
-
   const formatNumber = (n, digits = 2) => {
     if (n === null || n === undefined || isNaN(n) || n === '') return "";
     const num = typeof n === 'string'
@@ -149,11 +148,11 @@ export default function InfusionCalculator({ allDrugs = [] }) {
   // -----------------------------------------------------------------------------------
   // ESTADOS
   // -----------------------------------------------------------------------------------
-  const [selectedDrugSlug, setSelectedDrugSlug] = useState(allDrugs[0]?.slug || "");
-  const [isCustomConc, setIsCustomConc] = useState(false);
-  const [weight, setWeight] = useState("70"); 
-  const [concDrugAmount, setConcDrugAmount] = useState(''); 
-  const [concDrugUnit, setConcDrugUnit] = useState('mg');   
+  const [selectedDrugSlug, setSelectedDrugSlug] = useState(allDrugs[0]?.slug || "");
+  const [isCustomConc, setIsCustomConc] = useState(false);
+  const [weight, setWeight] = useState("70"); 
+  const [concDrugAmount, setConcDrugAmount] = useState(''); 
+  const [concDrugUnit, setConcDrugUnit] = useState('mg');   
   const [concTotalVolume, setConcTotalVolume] = useState(''); 
   const [doseVal, setDoseVal] = useState("0.05");
   const [doseUnit, setDoseUnit] = useState("mcg/kg/min");
@@ -243,100 +242,96 @@ export default function InfusionCalculator({ allDrugs = [] }) {
   }, [isPremium, selectedDrugSlug]);
 
 
-  // CÁLCULO PRINCIPAL (DOSE -> mL/h)
-  const mlh = useMemo(() => {
-    if (isDrugCalculationLocked) return "🔒";
+// CÁLCULO PRINCIPAL (DOSE -> mL/h)
+const mlh = useMemo(() => {
+  if (isDrugCalculationLocked) return "🔒";
 
-    const val = parseNumericState(doseVal);
-    const w = parseNumericState(weight);
-    const conc = baseConcentrationPerMl.value;
-    const isMassUnit = !doseUnit.includes("U/") && !doseUnit.includes("mEq/");
-    
-    if (isNaN(val) || isNaN(conc) || conc === 0) return "";
-    
-    if (isMassUnit) {
-      const f = factorToMcgPerKgPerMin(doseUnit, w);
-      
-      let dosePerMin = val * f;
-      if (doseUnit.includes("/kg")) {
-          dosePerMin = dosePerMin * w;
-      }
-      
-      const result = (dosePerMin * 60) / conc;
-      return formatNumberForDisplay(result, 2);
-      
-    } else {
-      let doseBasePerHour = val;
-      if (doseUnit.includes("/min")) {
-          doseBasePerHour = val * 60;
-      }
-      if (doseUnit.includes("/kg")) {
-          doseBasePerHour = doseBasePerHour * w;
-      }
-      const result = doseBasePerHour / conc;
-      return formatNumberForDisplay(result, 2);
-    }
-  }, [doseVal, doseUnit, weight, baseConcentrationPerMl]);
+  const val = parseNumericState(doseVal);
+  const w = parseNumericState(weight);
+  const conc = baseConcentrationPerMl.value;
+  const isMassUnit = !doseUnit.includes("U/") && !doseUnit.includes("mEq/");
+
+  if (isNaN(val) || isNaN(conc) || conc === 0) return "";
   
-  // CÁLCULO INVERSO (mL/h -> DOSE)
-  const doseFromMlH = useMemo(() => {
-    if (isDrugCalculationLocked) return "🔒";
+  // Se a unidade for por KG e o peso for zero, retorne vazio.
+  if (doseUnit.includes("/kg") && (isNaN(w) || w === 0)) return "";
 
-    const val = parseNumericState(mlPerH); // ml/h
-    const w = parseNumericState(weight);
-    const conc = baseConcentrationPerMl.value; // unidade base/mL (ex: mcg/mL)
-    const isMassUnit = !doseUnit.includes("U/") && !doseUnit.includes("mEq/");
-    const isDoseByWeight = doseUnit.includes("/kg");
-
-    // --- Lógica de Validação Melhorada ---
-    // Apenas exige peso (w > 0) se a unidade for por peso.
-    if (isNaN(val) || isNaN(conc) || conc === 0) return "";
-    if (isDoseByWeight && (isNaN(w) || w === 0)) return "";
-
-    if (isMassUnit) {
-      const totalMcgPerHour = val * conc;
-
-      if (isDoseByWeight) {
-        // Lógica para doses por peso (mcg/kg/min, mg/kg/h, etc.)
-        const baseMcgPerKgPerMin = totalMcgPerHour / (w * 60);
-        let out = baseMcgPerKgPerMin;
-        switch (doseUnit) {
-          case "mcg/kg/h": out = baseMcgPerKgPerMin * 60; break;
-          case "mg/kg/min": out = baseMcgPerKgPerMin / 1000; break;
-          case "mg/kg/h": out = (baseMcgPerKgPerMin * 60) / 1000; break;
-          default: out = baseMcgPerKgPerMin; // mcg/kg/min
-        }
-        return formatNumberForDisplay(out, 2);
-
-      } else {
-        // Lógica para doses NÃO por peso (mcg/min, mg/min)
-        let out;
-        switch (doseUnit) {
-          case "mg/min": out = (totalMcgPerHour / 60) / 1000; break;
-          case "mcg/min": out = totalMcgPerHour / 60; break;
-          // Adicionamos mg/h que não estava na lista mas é uma unidade válida
-          case "mg/h": out = totalMcgPerHour / 1000; break;
-          default: out = totalMcgPerHour / 60; // Assume mcg/min
-        }
-        return formatNumberForDisplay(out, 2);
-      }
-
-    } else { // Para U ou mEq
-      const totalUnitsPerHour = val * conc;
-      let out = totalUnitsPerHour;
-
-      if (isDoseByWeight) {
-        out = out / w;
-      }
-
-      if (doseUnit.includes("/min")) {
-        out = out / 60;
-      }
-      return formatNumberForDisplay(out, 2);
+  if (isMassUnit) {
+    // 1. Converte a dose de entrada (val) para a unidade base / HORA (mcg/h)
+    let doseInMcgPerHour = val;
+    
+    // Converte de mg para mcg
+    if (doseUnit.startsWith("mg/")) {
+        doseInMcgPerHour = doseInMcgPerHour * 1000;
     }
-  }, [mlPerH, weight, baseConcentrationPerMl, doseUnit, isDrugCalculationLocked, isPremium]);
+    // Converte de /min para /h
+    if (doseUnit.includes("/min")) {
+        doseInMcgPerHour = doseInMcgPerHour * 60;
+    }
+    
+    // 2. Multiplica pelo peso (SE for por peso)
+    // ESTE É O BLOCO CHAVE. Ele SÓ aplica o peso se tiver /kg.
+    if (doseUnit.includes("/kg")) {
+        doseInMcgPerHour = doseInMcgPerHour * w;
+    }
+    
+    // 3. Aplica a concentração e converte para mL/h
+    const result = doseInMcgPerHour / conc;
+    return formatNumberForDisplay(result, 2);
 
-  return (
+  } else {
+    // Lógica para U/mEq (mantida)
+    let doseBasePerHour = val;
+    if (doseUnit.includes("/min")) {
+      doseBasePerHour = val * 60;
+    }
+    if (doseUnit.includes("/kg")) {
+      doseBasePerHour = doseBasePerHour * w;
+    }
+    const result = doseBasePerHour / conc;
+    return formatNumberForDisplay(result, 2);
+  }
+}, [doseVal, doseUnit, weight, baseConcentrationPerMl]);
+
+// CÁLCULO INVERSO (mL/h -> DOSE)
+const doseFromMlH = useMemo(() => {
+  if (isDrugCalculationLocked) return "🔒";
+
+  const val = parseNumericState(mlPerH); // ml/h
+  const w = parseNumericState(weight);
+  const conc = baseConcentrationPerMl.value; // unidade base/mL (ex: mcg/mL ou U/mL)
+  const isMassUnit = !doseUnit.includes("U/") && !doseUnit.includes("mEq/");
+  const isDoseByWeight = doseUnit.includes("/kg");
+
+  // --- Lógica de Validação Melhorada ---
+  if (isNaN(val) || isNaN(conc) || conc === 0) return "";
+  if (isDoseByWeight && (isNaN(w) || w === 0)) return "";
+
+  // 1. Calcula a quantidade TOTAL de droga infundida por HORA na unidade base (mcg/h ou U/h ou mEq/h)
+  const totalBasePerHour = val * conc; 
+
+  // 2. Remove o peso (se for uma dose /kg)
+  let doseTargetPerHour = totalBasePerHour; 
+  if (isDoseByWeight) {
+    doseTargetPerHour = totalBasePerHour / w; 
+  }
+  
+  // 3. Converte a dose (Base/h ou Base/kg/h) para a unidade de DOSE ALVO
+  let out = doseTargetPerHour; 
+
+  // Converte de /h para /min (se necessário)
+  if (doseUnit.includes("/min")) {
+    out = out / 60;
+  }
+  
+  // Converte de mcg para mg (APENAS se for uma unidade de massa)
+  if (isMassUnit && doseUnit.startsWith("mg/")) {
+    out = out / 1000;
+  }
+
+  return formatNumberForDisplay(out, 2);
+  
+}, [mlPerH, weight, baseConcentrationPerMl, doseUnit, isDrugCalculationLocked, isPremium]);  return (
     <div className="min-h-screen bg-gray-50 text-gray-800">
       <Navbar />
       <div 
@@ -531,9 +526,10 @@ export default function InfusionCalculator({ allDrugs = [] }) {
                   <button
                     className={`px-4 py-2 rounded-xl font-medium shadow-md ${isDrugCalculationLocked ? 'bg-gray-400 text-white cursor-default' : 'bg-cyan-600 text-white hover:bg-cyan-700 transition-colors'}`}
                     onClick={() => {
-                       if (!isDrugCalculationLocked) {
-                       } else {
+                       if (isDrugCalculationLocked) {
                           alert(t('premium_feature_alert'));
+                       } else {
+                          // TODO: Add copy functionality here if needed.
                        }
                     }}
                     disabled={isDrugCalculationLocked}

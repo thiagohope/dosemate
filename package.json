@@ -16,6 +16,9 @@
     "release:major": "npm version major && git push --follow-tags"
   },
   "dependencies": {
+    "@capacitor/android": "^7.4.3",
+    "@capacitor/cli": "^7.4.3",
+    "@capacitor/core": "^7.4.3",
     "i18next": "^25.6.0",
     "i18next-browser-languagedetector": "^8.2.0",
     "react": "^19.1.1",
@@ -43,7 +46,7 @@
     "vite": "^7.1.7",
     "vite-plugin-pwa": "^1.1.0"
   },
-"config": {
+  "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }

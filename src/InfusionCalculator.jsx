@@ -43,8 +43,8 @@ function convertToMcg(amount, unit) {
 }
 
 export default function InfusionCalculator({ allDrugs = [] }) {
-  const { t, i18n } = useTranslation();
-  
+  const { t, i18n } = useTranslation();
+  
   const TRIAL_DAYS = 7;
   const TRIAL_KEY = 'dosemate_trial_start';
   const PERMANENT_KEY = 'dosemate_master_license'; 
@@ -152,11 +152,11 @@ export default function InfusionCalculator({ allDrugs = [] }) {
   const [isCustomConc, setIsCustomConc] = useState(false);
   const [weight, setWeight] = useState("70"); 
   const [concDrugAmount, setConcDrugAmount] = useState(''); 
-  const [concDrugUnit, setConcDrugUnit] = useState('mg');   
-  const [concTotalVolume, setConcTotalVolume] = useState(''); 
-  const [doseVal, setDoseVal] = useState("0.05");
-  const [doseUnit, setDoseUnit] = useState("mcg/kg/min");
-  const [mlPerH, setMlPerH] = useState("");
+  const [concDrugUnit, setConcDrugUnit] = useState('mg');   
+  const [concTotalVolume, setConcTotalVolume] = useState(''); 
+  const [doseVal, setDoseVal] = useState("0.05");
+  const [doseUnit, setDoseUnit] = useState("mcg/kg/min");
+  const [mlPerH, setMlPerH] = useState("");
   
   const selectedDrug = useMemo(
     () => allDrugs.find((d) => d.slug === selectedDrugSlug),
@@ -169,27 +169,27 @@ export default function InfusionCalculator({ allDrugs = [] }) {
   }, [selectedDrug]);
 
   useEffect(() => {
-      if (defaultConcentration) {
-        setConcDrugAmount(String(defaultConcentration.drug_amount || ''));
-        setConcDrugUnit(defaultConcentration.drug_unit || 'mg');
-        setConcTotalVolume(String(defaultConcentration.total_volume || ''));
-        setIsCustomConc(false);
-      }
-      if (!selectedDrugSlug && allDrugs.length > 0) {
-        setSelectedDrugSlug(allDrugs[0].slug);
-      }
-      // Lógica para predefinir a unidade correta (U/mEq) ao selecionar a droga
-      if (defaultConcentration?.drug_unit && ['U', 'mEq'].includes(defaultConcentration.drug_unit)) {
-          // Assume uma unidade base U/h ou mEq/h para drogas não-massa
-          const newUnit = defaultConcentration.drug_unit === 'U' ? 'U/h' : 'mEq/h';
-          setDoseUnit(newUnit);
-          setDoseVal('10'); // Valor padrão para U/h ou mEq/h
-      } else if (defaultConcentration?.drug_unit) {
-          // Volta para mcg/kg/min para drogas de massa
-          setDoseUnit('mcg/kg/min');
-          setDoseVal('0.05');
-      }
-    }, [selectedDrug, defaultConcentration, selectedDrugSlug, allDrugs]);
+      if (defaultConcentration) {
+        setConcDrugAmount(String(defaultConcentration.drug_amount || ''));
+        setConcDrugUnit(defaultConcentration.drug_unit || 'mg');
+        setConcTotalVolume(String(defaultConcentration.total_volume || ''));
+        setIsCustomConc(false);
+      }
+      if (!selectedDrugSlug && allDrugs.length > 0) {
+        setSelectedDrugSlug(allDrugs[0].slug);
+      }
+      // Lógica para predefinir a unidade correta (U/mEq) ao selecionar a droga
+      if (defaultConcentration?.drug_unit && ['U', 'mEq'].includes(defaultConcentration.drug_unit)) {
+          // Assume uma unidade base U/h ou mEq/h para drogas não-massa
+          const newUnit = defaultConcentration.drug_unit === 'U' ? 'U/h' : 'mEq/h';
+          setDoseUnit(newUnit);
+          setDoseVal('10'); // Valor padrão para U/h ou mEq/h
+      } else if (defaultConcentration?.drug_unit) {
+          // Volta para mcg/kg/min para drogas de massa
+          setDoseUnit('mcg/kg/min');
+          setDoseVal('0.05');
+      }
+    }, [selectedDrug, defaultConcentration, selectedDrugSlug, allDrugs]);
 
   const parseNumericState = (stateValue) => {
     if (stateValue === '' || stateValue === null) {
@@ -587,12 +587,12 @@ const doseFromMlH = useMemo(() => {
           </div>
           
           {/* Bloco de Aviso */}
-          <div className="mt-8 text-xs text-gray-600 leading-relaxed p-3 bg-red-50 rounded-lg border border-red-300">
-            <p className="font-semibold text-red-700">⚠️ {t('professional_warning_title')}</p>
-            <p className="mt-1">{t('professional_warning_message')}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+          <div className="mt-8 text-xs text-gray-600 leading-relaxed p-3 bg-red-50 rounded-lg border border-red-300">
+            <p className="font-semibold text-red-700">⚠️ {t('professional_warning_title')}</p>
+            <p className="mt-1">{t('professional_warning_message')}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }

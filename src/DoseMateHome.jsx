@@ -76,27 +76,28 @@ export default function DoseMateHome({ allDrugs = [], isFullList = false }) {
     return false; // Usuário não é Premium nem Trial
   }, []); 
 
-  // 2. EFEITO PARA INICIAR O TRIAL ou ATIVAR A LICENÇA PERMANENTE
-  useEffect(() => {
-    // 1. Ativação da Licença Permanente (Master Key)
-    if (isPremium && window.location.search.includes('masterkey')) {
-      localStorage.setItem(PERMANENT_KEY, 'true'); 
-      
-      // Limpa a URL e recarrega
-      const newUrl = window.location.pathname + window.location.hash;
-      window.location.replace(newUrl); 
-      return;
-    }
+// 2. EFEITO PARA INICIAR O TRIAL ou ATIVAR A LICENÇA PERMANENTE
+useEffect(() => {
+  // 1. Ativação da Licença Permanente (Master Key)
+  // Comentário: A Master Key deve ser validada e removida ANTES de qualquer outra coisa.
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('masterkey') === MASTER_KEY_SECRET) {
+    // Comentário: Master Key encontrada e validada.
+    localStorage.setItem(PERMANENT_KEY, 'true'); 
     
-    // 2. Inicia o Trial (Se não tiver Trial ativo e não for Premium)
-    const trialStart = localStorage.getItem(TRIAL_KEY);
-    if (!trialStart && !localStorage.getItem(PERMANENT_KEY)) {
-        localStorage.setItem(TRIAL_KEY, new Date().toISOString());
-        // Força a atualização do estado para ativar os recursos do trial
-        // Isso pode ser feito com um simples reload se a lógica do useMemo for suficiente
-        // Para simplificar, confiaremos no próximo render para ler o estado
-    }
-  }, []); // Executa apenas uma vez na montagem inicial
+    // Comentário: Limpa a URL e recarrega a página no caminho base para garantir que a chave não fique.
+    // Isso garante a "segurança de acesso único" impedindo o compartilhamento do link secreto.
+    window.location.replace(window.location.pathname + window.location.hash); 
+    return; // Para o restante do código.
+  }
+  
+  // 2. Inicia o Trial (Se não tiver Trial ativo e não for Premium)
+  const trialStart = localStorage.getItem(TRIAL_KEY);
+  if (!trialStart && !localStorage.getItem(PERMANENT_KEY) && !isPremium) {
+      localStorage.setItem(TRIAL_KEY, new Date().toISOString());
+      // Comentário: O próximo render lerá o estado do Trial
+  }
+}, [isPremium]); // Depende de isPremium para garantir que o Trial não inicie se for Master Key
   
   // LÓGICA DO FILTRO DE MEDICAMENTOS (Limita a 5 se não for Premium)
   const drugListToShow = useMemo(() => {
